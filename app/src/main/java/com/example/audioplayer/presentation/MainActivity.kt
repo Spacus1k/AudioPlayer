@@ -12,6 +12,7 @@ import com.example.audioplayer.presentation.theme.AudioPlayerTheme
 import com.example.audioplayer.presentation.ui.HomeScreen
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -21,7 +22,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                   HomeScreen(AudioViewModel(GetAudioListUseCase(contentResolver)))
+
+                   HomeScreen(this,AudioViewModel(GetAudioListUseCase(contentResolver)))
                 }
             }
         }

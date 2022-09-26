@@ -8,7 +8,6 @@ import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.ui.model.AudioStatus
 import com.example.audioplayer.presentation.utils.debugLog
 import com.example.audioplayer.presentation.utils.toDomain
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
@@ -50,7 +49,6 @@ class AudioViewModel(getAudioListUseCase: GetAudioListUseCase) : ViewModel() {
 
     private fun onAudioCompletion() {
         debugLog("onAudioCompletion viewModel")
-
         changeStatusCurrentAudio()
     }
 }
