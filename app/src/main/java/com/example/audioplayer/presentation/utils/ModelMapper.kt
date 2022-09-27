@@ -9,6 +9,7 @@ fun AudioFile.toDomain() = AudioFileDomain(
     id = id,
     title = title,
     artist = artist,
+    duration = duration,
     location = location,
     status = status.toDomain()
 )
@@ -17,6 +18,7 @@ fun AudioFileDomain.toPresentation() = AudioFile(
     id = id,
     title = title,
     artist = artist,
+    duration = duration,
     location = location,
     status = status.toPresentation()
 )
@@ -32,3 +34,10 @@ fun AudioStatusDomain.toPresentation() = when (this) {
     AudioStatusDomain.PLAYING -> AudioStatus.PLAYING
     AudioStatusDomain.PAUSED -> AudioStatus.PAUSED
 }
+
+fun List<AudioFileDomain>.toPresentation() = map { audio -> audio.toPresentation() }
+
+fun List<AudioFile>.toDomain() = map { audio -> audio.toDomain() }
+
+
+

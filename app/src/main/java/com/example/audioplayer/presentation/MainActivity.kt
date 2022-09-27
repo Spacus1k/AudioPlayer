@@ -22,7 +22,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
                    HomeScreen(this,AudioViewModel(GetAudioListUseCase(contentResolver)))
                 }
             }

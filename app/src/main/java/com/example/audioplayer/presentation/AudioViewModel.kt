@@ -8,13 +8,21 @@ import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.ui.model.AudioStatus
 import com.example.audioplayer.presentation.utils.debugLog
 import com.example.audioplayer.presentation.utils.toDomain
+import com.example.audioplayer.presentation.utils.toPresentation
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class AudioViewModel(getAudioListUseCase: GetAudioListUseCase) : ViewModel() {
 
-    private var _audioList = getAudioListUseCase.execute()
+    private val _audioList = MutableStateFlow<List<AudioFile>>(emptyList())
     val audioList: StateFlow<List<AudioFile>> = _audioList
+    init {
+        viewModelScope.launch { getAudioListUseCase.execute().collect{ list ->
+                _audioList.value = list.toPresentation()
+            }
+        }
+    }
 
     private var currentAudio: AudioFile? = null
 

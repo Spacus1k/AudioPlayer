@@ -1,11 +1,8 @@
 package com.example.audioplayer.presentation.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -22,22 +19,24 @@ fun AudioFileItem(
     onAudioClick: (AudioFile) -> Unit,
     modifier: Modifier,
 ) {
-    Button(onClick = {
-        when (audioFile.status) {
-            AudioStatus.PLAYING -> audioFile.status = AudioStatus.PAUSED
-            else -> audioFile.status = AudioStatus.PLAYING
-        }
-        onAudioClick(audioFile)
-    }) {
-        Card(modifier = modifier) {
+    Card(modifier = modifier) {
+        Button(
+            modifier = modifier,
+            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+            onClick = {
+                when (audioFile.status) {
+                    AudioStatus.PLAYING -> audioFile.status = AudioStatus.PAUSED
+                    else -> audioFile.status = AudioStatus.PLAYING
+                }
+                onAudioClick(audioFile)
+            }) {
 
             Row(modifier = modifier.fillMaxWidth()) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_baseline_music_note_24),
                     contentDescription = "Song cover",
                     modifier = Modifier
-                        .size(60.dp)
-                        .padding(8.dp)
+                        .size(50.dp)
                 )
 
                 Column(modifier = modifier.padding(8.dp)) {
@@ -52,6 +51,6 @@ fun AudioFileItem(
 @Composable
 @Preview
 fun PreviewAudioFileItem() {
-    val audioFile = AudioFile(id = 0, "Labirint", " Face", "", AudioStatus.STOPPED)
+    val audioFile = AudioFile(id = 0, "Labirint", " Face", "", 0f, AudioStatus.STOPPED)
     AudioFileItem(audioFile, {}, Modifier)
 }

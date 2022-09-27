@@ -1,12 +1,11 @@
 package com.example.audioplayer.presentation.ui.model
 
-import com.example.audioplayer.domain.model.AudioFileDomain
-
 data class AudioFile(
     val id: Int,
     val title: String,
     val artist: String,
     val location: String,
+    val duration: Float,
     var status: AudioStatus = AudioStatus.STOPPED
 ) {
     override fun equals(other: Any?): Boolean =

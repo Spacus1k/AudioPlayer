@@ -5,6 +5,7 @@ data class AudioFileDomain(
     val title: String,
     val artist: String,
     val location: String,
+    val duration: Float,
     var status: AudioStatusDomain = AudioStatusDomain.STOPPED
 ) {
     override fun equals(other: Any?): Boolean =

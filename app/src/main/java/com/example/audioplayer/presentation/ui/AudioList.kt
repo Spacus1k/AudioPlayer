@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.audioplayer.presentation.ui.components.AudioFileItem
 import com.example.audioplayer.presentation.ui.components.SearchField
 import com.example.audioplayer.presentation.ui.model.AudioFile
+import com.example.audioplayer.presentation.utils.EmptyAudioListScreen
 
 @Composable
 fun AudioListScreen(
@@ -21,11 +22,15 @@ fun AudioListScreen(
     onAudioClick: (AudioFile) -> Unit,
     modifier: Modifier
 ) {
-    Scaffold(Modifier.fillMaxSize()) {
-        Column(Modifier.fillMaxSize()) {
+    Scaffold(modifier = modifier.fillMaxSize()) {
+        Column(modifier = modifier.fillMaxSize()) {
             Log.e("TAG", "${audioList.forEach { println(it.title) }}")
             SearchField(onValueChange = {}, modifier = modifier)
-            AudioList(audioList, onAudioClick, modifier = Modifier)
+            if (audioList.isEmpty()) {
+                EmptyAudioListScreen(modifier = modifier)
+            } else {
+                AudioList(audioList, onAudioClick, modifier = modifier)
+            }
         }
     }
 }
@@ -47,13 +52,13 @@ fun AudioList(audioList: List<AudioFile>, onAudioClick: (AudioFile) -> Unit, mod
 
 fun getAudioList(): List<AudioFile> {
     return mutableListOf(
-        AudioFile(id = 0, title = "Рыть", artist = "Face", "D"),
-        AudioFile(id = 0, title = "Подруга подруг", artist = "Face", "D"),
-        AudioFile(id = 0, title = "Юморист", artist = "Face", "D"),
-        AudioFile(id = 0, title = "Калашников", artist = "Face", "D"),
-        AudioFile(id = 0, title = "Монетка", artist = "ЛСП", "D"),
-        AudioFile(id = 0, title = "Рейман", artist = "Face", "D"),
-        AudioFile(id = 0, title = "Бургер", artist = "Face", "D"),
-        AudioFile(id = 0, title = "Гоша Рубчинский", artist = "Face", "D")
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
     )
 }
