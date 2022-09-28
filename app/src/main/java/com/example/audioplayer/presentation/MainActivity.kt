@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import com.example.audioplayer.domain.usecase.GetAudioListUseCase
 import com.example.audioplayer.presentation.theme.AudioPlayerTheme
 import com.example.audioplayer.presentation.ui.HomeScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

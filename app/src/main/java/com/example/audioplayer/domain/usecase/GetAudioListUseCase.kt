@@ -7,8 +7,9 @@ import com.example.audioplayer.domain.model.AudioFileDomain
 import com.example.audioplayer.domain.model.AudioStatusDomain
 import com.example.audioplayer.presentation.utils.debugLog
 import kotlinx.coroutines.flow.MutableStateFlow
+import javax.inject.Inject
 
-class GetAudioListUseCase(private val contentResolver: ContentResolver) {
+class GetAudioListUseCase @Inject constructor(private val contentResolver: ContentResolver) {
 
     private val projection: Array<String> = arrayOf(
         MediaStore.Audio.AudioColumns.DISPLAY_NAME,
