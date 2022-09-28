@@ -10,6 +10,7 @@ fun AudioFile.toDomain() = AudioFileDomain(
     title = title,
     artist = artist,
     duration = duration,
+    displayName = displayName,
     location = location,
     status = status.toDomain()
 )
@@ -19,6 +20,7 @@ fun AudioFileDomain.toPresentation() = AudioFile(
     title = title,
     artist = if (artist.contains("<unknown>")) "Unknown Artist" else artist,
     duration = duration,
+    displayName = displayName,
     location = location,
     status = status.toPresentation()
 )

@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".domain.model.MediaPlayerService"
+        <service android:name=".domain.media.MediaPlayerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.media.browser.MediaBrowserService"/>

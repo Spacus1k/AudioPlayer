@@ -51,6 +51,6 @@ fun AudioFileItem(
 @Composable
 @Preview
 fun PreviewAudioFileItem() {
-    val audioFile = AudioFile(id = 0, "Labirint", " Face", "", 0f, AudioStatus.STOPPED)
+    val audioFile = AudioFile(id = 0, title = "Labirint", artist = " Face", location = "", duration = 0f, status = AudioStatus.STOPPED, displayName = " Lab")
     AudioFileItem(audioFile, {}, Modifier)
 }

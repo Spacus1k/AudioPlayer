@@ -34,7 +34,7 @@ class AudioViewModel(getAudioListUseCase: GetAudioListUseCase) : ViewModel() {
         }
 
         viewModelScope.launch {
-            getAudioListUseCase.execute().collect { list ->
+            getAudioListUseCase.executeAsFlow().collect { list ->
                 _audioList.value = list.toPresentation()
             }
         }

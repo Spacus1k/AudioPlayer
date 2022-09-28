@@ -4,6 +4,7 @@ data class AudioFileDomain(
     val id: Int,
     val title: String,
     val artist: String,
+    val displayName: String,
     val location: String,
     val duration: Float,
     var status: AudioStatusDomain = AudioStatusDomain.STOPPED

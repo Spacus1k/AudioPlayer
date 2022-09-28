@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,7 +61,7 @@ fun AudioListScreen(
 fun PreviewAudioListScreen() {
     AudioListScreen(
         audioList = getAudioList(), onAudioClick = {}, modifier = Modifier,
-        currentAudioFile = AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
+        currentAudioFile = AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть", duration = 0f),
         onProgressChange = {}
     )
 }
@@ -78,13 +77,16 @@ fun AudioList(audioList: List<AudioFile>, onAudioClick: (AudioFile) -> Unit, mod
 
 fun getAudioList(): List<AudioFile> {
     return mutableListOf(
-        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
-        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
-        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
-        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
-        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
-        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
-        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
-        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
+        AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "Рыть",0f),
     )
 }

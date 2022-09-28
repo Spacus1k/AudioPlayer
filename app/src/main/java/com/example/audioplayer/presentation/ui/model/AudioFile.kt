@@ -5,6 +5,7 @@ data class AudioFile(
     val title: String,
     val artist: String,
     val location: String,
+    val displayName: String,
     val duration: Float,
     var status: AudioStatus = AudioStatus.STOPPED
 ) {

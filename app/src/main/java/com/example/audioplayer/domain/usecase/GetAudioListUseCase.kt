@@ -27,7 +27,7 @@ class GetAudioListUseCase @Inject constructor(private val contentResolver: Conte
 
     private val sortOrder = "${MediaStore.Audio.AudioColumns.DISPLAY_NAME} ASC"
 
-    fun execute(): MutableStateFlow<List<AudioFileDomain>> {
+    fun executeAsFlow(): MutableStateFlow<List<AudioFileDomain>> {
 
         val audioCursor = contentResolver.query(
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
@@ -45,13 +45,29 @@ class GetAudioListUseCase @Inject constructor(private val contentResolver: Conte
         )
     }
 
-    private fun getAudioList(cursor: Cursor): MutableList<AudioFileDomain> {
+    fun execute(): List<AudioFileDomain> {
+        val audioCursor = contentResolver.query(
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            selectionClause,
+            selectionArg,
+            sortOrder
+        )
+        return if (audioCursor != null && audioCursor.moveToFirst())
+            getAudioList(audioCursor)
+        else {
+            emptyList()
+        }
+    }
+
+   private fun getAudioList(cursor: Cursor): MutableList<AudioFileDomain> {
         val audioList = mutableListOf<AudioFileDomain>()
         with(cursor) {
             val audioTitle = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE)
             val audioArtist = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ARTIST)
             val audioLocation = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DATA)
             val audioDuration = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DURATION)
+            val audioDisplayName = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME)
             val id = getColumnIndexOrThrow(MediaStore.Audio.AudioColumns._ID)
 
             while (cursor.moveToNext()) {
@@ -62,7 +78,8 @@ class GetAudioListUseCase @Inject constructor(private val contentResolver: Conte
                     artist = getString(audioArtist),
                     location = getString(audioLocation),
                     duration = getFloat(audioDuration),
-                    status = AudioStatusDomain.STOPPED
+                    status = AudioStatusDomain.STOPPED,
+                    displayName = getString(audioDisplayName)
                 )
                 audioList.add(audioFile)
             }

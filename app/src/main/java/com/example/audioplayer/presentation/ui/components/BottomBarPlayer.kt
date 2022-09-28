@@ -45,7 +45,7 @@ fun PreviewBottomBarPlayer() {
     BottomBarPlayer(
         progress = 100f,
         onProgressChange = {},
-        audioFile = AudioFile(id = 0, title = "Рыть", artist = "Face", "D", 0f),
+        audioFile = AudioFile(id = 0, title = "Рыть", artist = "Face", "D", displayName = "test",0f),
         isAudioPlaying = true,
         onStart = { /*TODO*/ }) {
     }

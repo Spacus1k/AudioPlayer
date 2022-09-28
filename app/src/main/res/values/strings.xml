@@ -7,4 +7,11 @@
     <string name="permission_dialog_title">Please grant permission</string>
     <string name="permission_dialog_text">Need Read external storage permission</string>
     <string name="empty_audio_list">Audio list is empty</string>
+
+    <string name="notification_channel">Now Playing</string>
+    <string name="notification_channel_description">Shows what music is currently playing in our App</string>
+    <string name="generic_error">The application has encountered an unexpected error.</string>
+    <string name="error_media_not_found">Could not locate requested media.</string>
+
+
 </resources>
