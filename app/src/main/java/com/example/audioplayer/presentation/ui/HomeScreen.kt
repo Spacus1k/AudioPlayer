@@ -11,7 +11,7 @@ import com.example.audioplayer.presentation.ui.components.PermissionAlertDialogT
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.utils.PermissionManager
 import com.example.audioplayer.presentation.utils.PermissionManager.Companion.checkStoragePermission
-import com.example.audioplayer.presentation.utils.extensions.collectAsStateLifecycleAware
+import com.example.audioplayer.presentation.utils.collectAsStateLifecycleAware
 
 @Composable
 fun HomeScreen(
@@ -20,6 +20,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
     val audioList: List<AudioFile> by audioViewModel.audioList.collectAsStateLifecycleAware(initial = emptyList())
+    val currentAudio by audioViewModel.currentAudio.collectAsStateLifecycleAware()
     val openDialog = remember { mutableStateOf(false) }
 
     AudioListScreen(
@@ -31,7 +32,9 @@ fun HomeScreen(
                 permissionGrantedAction = { audioViewModel.onAudioClick(audio) }
             )
         },
-        modifier = modifier
+        modifier = modifier,
+        currentAudioFile = currentAudio,
+        onProgressChange = { audioViewModel.seekTo(it) }
     )
 
     if (openDialog.value) {

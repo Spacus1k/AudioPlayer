@@ -4,11 +4,17 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import com.example.audioplayer.domain.model.AudioFileDomain
 import com.example.audioplayer.presentation.utils.debugLog
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import java.lang.reflect.Array.get
 
 class AudioPlayer(private val onAudioCompletion: () -> Unit) : MediaPlayer.OnPreparedListener,
     MediaPlayer.OnCompletionListener {
 
     private var mediaPlayer: MediaPlayer? = null
+    private var _currentAudio = MutableStateFlow<AudioFileDomain?>(null)
+    val currentAudio: StateFlow<AudioFileDomain?> get() = _currentAudio
 
     override fun onPrepared(mp: MediaPlayer?) {
         debugLog("onPrepared")
@@ -36,7 +42,12 @@ class AudioPlayer(private val onAudioCompletion: () -> Unit) : MediaPlayer.OnPre
             )
             setOnPreparedListener(this@AudioPlayer)
             prepare()
+
         }
+    }
+
+    suspend fun setCurrentAudio(audioFile: AudioFileDomain?){
+        _currentAudio.emit(audioFile)
     }
 
     fun pausePlaying() {
@@ -56,7 +67,6 @@ class AudioPlayer(private val onAudioCompletion: () -> Unit) : MediaPlayer.OnPre
         debugLog("stopPlaying")
         mediaPlayer?.stop()
         releaseMediaPlayer()
-
     }
 
     private fun releaseMediaPlayer() {

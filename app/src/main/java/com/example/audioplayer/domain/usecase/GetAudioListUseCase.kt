@@ -10,32 +10,50 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class GetAudioListUseCase(private val contentResolver: ContentResolver) {
 
-    companion object {
-        private const val START_ID = 0
-    }
+    private val projection: Array<String> = arrayOf(
+        MediaStore.Audio.AudioColumns.DISPLAY_NAME,
+        MediaStore.Audio.AudioColumns._ID,
+        MediaStore.Audio.AudioColumns.ARTIST,
+        MediaStore.Audio.AudioColumns.DATA,
+        MediaStore.Audio.AudioColumns.DURATION,
+        MediaStore.Audio.AudioColumns.TITLE,
+    )
+
+    private var selectionClause: String? =
+        "${MediaStore.Audio.AudioColumns.IS_MUSIC} = ?"
+
+    private var selectionArg = arrayOf("1")
+
+    private val sortOrder = "${MediaStore.Audio.AudioColumns.DISPLAY_NAME} ASC"
 
     fun execute(): MutableStateFlow<List<AudioFileDomain>> {
-        val audioUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val audioCursor = contentResolver.query(audioUri, null, null, null, null)
+
+        val audioCursor = contentResolver.query(
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            selectionClause,
+            selectionArg,
+            sortOrder
+        )
         return MutableStateFlow(
             if (audioCursor != null && audioCursor.moveToFirst())
                 getAudioList(audioCursor)
-        else{
-            emptyList()
+            else {
+                emptyList()
             }
         )
     }
 
     private fun getAudioList(cursor: Cursor): MutableList<AudioFileDomain> {
-        var id: Int = START_ID
         val audioList = mutableListOf<AudioFileDomain>()
         with(cursor) {
-            val audioTitle = getColumnIndex(MediaStore.Audio.Media.TITLE)
-            val audioArtist = getColumnIndex(MediaStore.Audio.Media.ARTIST)
-            val audioLocation = getColumnIndex(MediaStore.Audio.Media.DATA)
-            val audioDuration = getColumnIndex(MediaStore.Audio.Media.DURATION)
+            val audioTitle = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE)
+            val audioArtist = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ARTIST)
+            val audioLocation = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DATA)
+            val audioDuration = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DURATION)
+            val id = getColumnIndexOrThrow(MediaStore.Audio.AudioColumns._ID)
 
-            do {
+            while (cursor.moveToNext()) {
                 debugLog("id:$id")
                 val audioFile = AudioFileDomain(
                     id = id,
@@ -45,10 +63,8 @@ class GetAudioListUseCase(private val contentResolver: ContentResolver) {
                     duration = getFloat(audioDuration),
                     status = AudioStatusDomain.STOPPED
                 )
-
                 audioList.add(audioFile)
-                id++
-            } while (cursor.moveToNext())
+            }
             close()
             printAudioList(audioList)
         }
