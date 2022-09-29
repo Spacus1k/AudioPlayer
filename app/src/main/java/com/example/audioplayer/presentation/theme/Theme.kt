@@ -9,19 +9,20 @@ import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
     primary = CyanBlue,
-    primaryVariant = DarkSlateGray,
-    onPrimary = CyanBlue,
+    primaryVariant = CyanAlabaster,
+    onPrimary = Color.White,
     secondary = CyanAlabaster,
-    onSecondary = CyanAlabaster,
-    error = Blue
+    onSecondary = Color.Black,
+    error = Blue,
+    surface = CyanAlabaster
 )
 
 private val LightColorPalette = lightColors(
     primary = CyanBlue,
     primaryVariant = CyanAlabaster,
-    onPrimary = CyanAlabaster,
+    onPrimary = DarkSlateGray,
     secondary = CyanAlabaster,
-    onSecondary = CyanAlabaster,
+    onSecondary = Color.Black,
     error = Blue,
     surface = CyanAlabaster
 

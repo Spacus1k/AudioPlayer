@@ -25,9 +25,11 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MediaPlayerService : MediaBrowserServiceCompat() {
 
     companion object {
@@ -60,19 +62,19 @@ class MediaPlayerService : MediaBrowserServiceCompat() {
 
     override fun onCreate() {
         super.onCreate()
+        val sessionActivityIntent = packageManager
+            ?.getLaunchIntentForPackage(packageName)
+            ?.let { sessionIntent ->
+                PendingIntent.getActivity(
+                    this,
+                    0,
+                    sessionIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or
+                            PendingIntent.FLAG_IMMUTABLE
+                )
 
-        val sessionActivityIntent =
-            packageManager
-                ?.getLeanbackLaunchIntentForPackage(packageName)
-                ?.let { sessionIntent ->
-                    PendingIntent.getActivity(
-                        this,
-                        0,
-                        sessionIntent,
-                        PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
-                }
 
+            }
         mediaSession = MediaSessionCompat(this, TAG).apply {
             setSessionActivity(sessionActivityIntent)
             isActive = true
@@ -96,7 +98,6 @@ class MediaPlayerService : MediaBrowserServiceCompat() {
             setQueueNavigator(MediaQueueNavigator(mediaSession))
             setPlayer(exoPlayer)
         }
-
         mediaPlayerNotificationManager.showNotification(exoPlayer)
     }
 
@@ -132,6 +133,7 @@ class MediaPlayerService : MediaBrowserServiceCompat() {
     }
 
     override fun onCustomAction(action: String, extras: Bundle?, result: Result<Bundle>) {
+        super.onCustomAction(action, extras, result)
         when (action) {
             START_MEDIA_PLAY_ACTION -> mediaPlayerNotificationManager.showNotification(exoPlayer)
             REFRESH_MEDIA_PLAY_ACTION -> {
@@ -230,7 +232,7 @@ class MediaPlayerService : MediaBrowserServiceCompat() {
                     Intent(
                         applicationContext,
                         this@MediaPlayerService.javaClass
-                    ),
+                    )
                 )
                 startForeground(notificationId, notification)
                 isForegroundService = true
@@ -251,7 +253,6 @@ class MediaPlayerService : MediaBrowserServiceCompat() {
                     PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID
 
         override fun onPrepare(playWhenReady: Boolean) = Unit
-
 
         override fun onPrepareFromMediaId(
             mediaId: String,

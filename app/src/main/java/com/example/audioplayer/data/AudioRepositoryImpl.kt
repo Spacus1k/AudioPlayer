@@ -66,18 +66,17 @@ class AudioRepositoryImpl @Inject constructor(@ApplicationContext val context: C
     private fun getAudioList(cursor: Cursor): MutableList<AudioFileDomain> {
         val audioList = mutableListOf<AudioFileDomain>()
         with(cursor) {
-            val audioTitle = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE)
-            val audioArtist = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ARTIST)
-            val audioLocation = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DATA)
-            val audioDuration = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DURATION)
-            val audioDisplayName =
-                cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME)
+            val audioTitle = getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE)
+            val audioArtist = getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ARTIST)
+            val audioLocation = getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DATA)
+            val audioDuration = getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DURATION)
+            val audioDisplayName = getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME)
             val id = getColumnIndexOrThrow(MediaStore.Audio.AudioColumns._ID)
 
             while (cursor.moveToNext()) {
                 debugLog("id:$id")
                 val audioFile = AudioFileDomain(
-                    id = id,
+                    id = getLong(id),
                     title = getString(audioTitle),
                     artist = getString(audioArtist),
                     location = getString(audioLocation),

@@ -1,6 +1,8 @@
-package com.example.audioplayer.di
+package com.example.audioplayer.domain.di
 
 import android.content.Context
+import com.example.audioplayer.domain.repository.AudioRepository
+import com.example.audioplayer.domain.usecases.GetAudioListUseCase
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.audio.AudioAttributes
@@ -19,8 +21,7 @@ import java.io.File
 
 @Module
 @InstallIn(ServiceComponent::class)
-object MediaServiceModule {
-
+object ServiceModule {
     @Provides
     @ServiceScoped
     fun provideAudioAttributes(): AudioAttributes =
@@ -32,7 +33,7 @@ object MediaServiceModule {
     @Provides
     @ServiceScoped
     fun provideExoPlayer(
-        context: Context,
+        @ApplicationContext context: Context,
         audioAttributes: AudioAttributes
     ): ExoPlayer = ExoPlayer.Builder(context).build().apply {
         setAudioAttributes(audioAttributes, true)
@@ -41,8 +42,12 @@ object MediaServiceModule {
 
     @Provides
     @ServiceScoped
+    fun provideGetAudioListUseCases(repository: AudioRepository) = GetAudioListUseCase(repository)
+
+    @Provides
+    @ServiceScoped
     fun provideDataSourceFactory(
-        context: Context
+        @ApplicationContext context: Context
     ) = DefaultDataSource.Factory(context)
 
     @Provides

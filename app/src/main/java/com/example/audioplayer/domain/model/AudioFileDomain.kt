@@ -1,7 +1,7 @@
 package com.example.audioplayer.domain.model
 
 data class AudioFileDomain(
-    val id: Int,
+    val id: Long,
     val title: String,
     val artist: String,
     val displayName: String,

@@ -42,6 +42,7 @@ internal class MediaPlayerNotificationManager(
             setMediaSessionToken(sessionToken)
             setSmallIcon(R.drawable.ic_baseline_music_note_24)
             setUseRewindAction(false)
+            setUseFastForwardAction(false)
         }
     }
 

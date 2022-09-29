@@ -13,16 +13,16 @@ import javax.inject.Inject
 
 class MediaSource @Inject constructor(private val repository: AudioRepository) {
 
-    private val onReadyListener: MutableList<OnReadyListener> = mutableListOf()
+    private val onReadyListeners: MutableList<OnReadyListener> = mutableListOf()
 
     var audioMetaData: List<MediaMetadataCompat> = emptyList()
 
     private var state: AudioSourceState = AudioSourceState.STATE_CREATED
         set(value) {
             if (value == AudioSourceState.STATE_CREATED || value == AudioSourceState.STATE_ERROR) {
-                synchronized(onReadyListener) {
+                synchronized(onReadyListeners) {
                     field = value
-                    onReadyListener.forEach { listener ->
+                    onReadyListeners.forEach { listener: OnReadyListener ->
                         listener.invoke(isReady)
                     }
                 }
@@ -33,7 +33,7 @@ class MediaSource @Inject constructor(private val repository: AudioRepository) {
 
     fun whenReady(listener: OnReadyListener): Boolean {
         return if (state == AudioSourceState.STATE_CREATED || state == AudioSourceState.STATE_INITIALIZING) {
-            onReadyListener += listener
+            onReadyListeners += listener
             false
         } else {
             listener.invoke(isReady)
@@ -63,7 +63,7 @@ class MediaSource @Inject constructor(private val repository: AudioRepository) {
                     audio.title
                 ).putString(
                     MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE,
-                    audio.displayName,
+                    audio.displayName
                 ).putLong(
                     MediaMetadataCompat.METADATA_KEY_DURATION,
                     audio.duration.toLong()
@@ -103,7 +103,7 @@ class MediaSource @Inject constructor(private val repository: AudioRepository) {
     }.toMutableList()
 
     fun refresh() {
-        onReadyListener.clear()
+        onReadyListeners.clear()
         state = AudioSourceState.STATE_CREATED
     }
 }

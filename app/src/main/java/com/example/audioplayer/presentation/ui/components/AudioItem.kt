@@ -16,20 +16,14 @@ import com.example.audioplayer.presentation.ui.model.AudioStatus
 @Composable
 fun AudioFileItem(
     audioFile: AudioFile,
-    onAudioClick: (AudioFile) -> Unit,
+    onAudioClick: (id: Long) -> Unit,
     modifier: Modifier,
 ) {
     Card(modifier = modifier) {
         Button(
             modifier = modifier,
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
-            onClick = {
-                when (audioFile.status) {
-                    AudioStatus.PLAYING -> audioFile.status = AudioStatus.PAUSED
-                    else -> audioFile.status = AudioStatus.PLAYING
-                }
-                onAudioClick(audioFile)
-            }) {
+            onClick = { onAudioClick(audioFile.id) }) {
 
             Row(modifier = modifier.fillMaxWidth()) {
                 Image(
@@ -40,7 +34,7 @@ fun AudioFileItem(
                 )
 
                 Column(modifier = modifier.padding(8.dp)) {
-                    Text(text = audioFile.title, fontSize = 16.sp)
+                    Text(text = audioFile.displayName, fontSize = 16.sp)
                     Text(text = audioFile.artist)
                 }
             }
@@ -51,6 +45,14 @@ fun AudioFileItem(
 @Composable
 @Preview
 fun PreviewAudioFileItem() {
-    val audioFile = AudioFile(id = 0, title = "Labirint", artist = " Face", location = "", duration = 0f, status = AudioStatus.STOPPED, displayName = " Lab")
+    val audioFile = AudioFile(
+        id = 0,
+        title = "Labirint",
+        artist = " Face",
+        location = "",
+        duration = 0f,
+        status = AudioStatus.STOPPED,
+        displayName = " Lab"
+    )
     AudioFileItem(audioFile, {}, Modifier)
 }

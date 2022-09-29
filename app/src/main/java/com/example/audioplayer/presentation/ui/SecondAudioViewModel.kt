@@ -7,8 +7,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.audioplayer.data.AudioRepositoryImpl
-import com.example.audioplayer.domain.media.*
+import com.example.audioplayer.domain.media.Constants
+import com.example.audioplayer.domain.media.MediaPlayerService
+import com.example.audioplayer.domain.media.MediaPlayerServiceConnection
+import com.example.audioplayer.domain.media.currentPosition
+import com.example.audioplayer.domain.media.isPlaying
+import com.example.audioplayer.domain.usecases.GetAudioListUseCase
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.utils.toDomain
 import com.example.audioplayer.presentation.utils.toPresentation
@@ -19,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SecondAudioViewModel @Inject constructor(
-    private val repository: AudioRepositoryImpl,
+    private val getAudioListUseCase: GetAudioListUseCase,
     serviceConnection: MediaPlayerServiceConnection
 ) : ViewModel() {
 
@@ -47,7 +51,8 @@ class SecondAudioViewModel @Inject constructor(
         updatePlayback()
     }
 
-    val currentDuration = MediaPlayerService.currentDuration
+    val currentDuration: Long
+        get() = MediaPlayerService.currentDuration
 
     var currentAudioProgress = mutableStateOf(0f)
 
@@ -67,7 +72,7 @@ class SecondAudioViewModel @Inject constructor(
     }
 
     private suspend fun getAndFormatAudioData(): List<AudioFile> {
-        return repository.getAudioData().map { audio ->
+        return getAudioListUseCase.getAudioList().map { audio ->
             val displayName = audio.displayName.substringBefore(".")
             val artist = audio.artist
             audio.copy(displayName = displayName, artist = artist).toPresentation()
