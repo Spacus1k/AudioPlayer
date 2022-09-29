@@ -16,6 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.example.audioplayer.R
 import com.example.audioplayer.data.MediaSource
+import com.example.audioplayer.domain.media.Constants.MEDIA_ROOT_ID
+import com.example.audioplayer.domain.media.Constants.REFRESH_MEDIA_PLAY_ACTION
+import com.example.audioplayer.domain.media.Constants.START_MEDIA_PLAY_ACTION
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaMetadata
 import com.google.android.exoplayer2.PlaybackException
@@ -30,14 +33,9 @@ import javax.inject.Inject
 class MediaPlayerService : MediaBrowserServiceCompat() {
 
     companion object {
-        private const val TAG = "MediaPlayerService"
-        private const val REFRESH_MEDIA_PLAY_ACTION = "REFRESH_MEDIA_PLAY_ACTION "
-        private const val START_MEDIA_PLAY_ACTION = "START_MEDIA_PLAY_ACTION"
-        const val MEDIA_ROOT_ID = "media_root_id"
-
+        const val TAG = "MediaPlayerService"
         var currentDuration: Long = 0L
             private set
-
     }
 
     @Inject
