@@ -1,6 +1,5 @@
-package com.example.audioplayer.domain.usecase
+package com.example.audioplayer.domain.media
 
-import com.example.audioplayer.domain.AudioPlayer
 import com.example.audioplayer.domain.model.AudioFileDomain
 import com.example.audioplayer.domain.model.AudioStatusDomain.*
 

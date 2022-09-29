@@ -15,12 +15,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.example.audioplayer.R
-import com.example.audioplayer.data.MediaSource
 import com.example.audioplayer.domain.media.Constants.MEDIA_ROOT_ID
 import com.example.audioplayer.domain.media.Constants.REFRESH_MEDIA_PLAY_ACTION
 import com.example.audioplayer.domain.media.Constants.START_MEDIA_PLAY_ACTION
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaMetadata
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector

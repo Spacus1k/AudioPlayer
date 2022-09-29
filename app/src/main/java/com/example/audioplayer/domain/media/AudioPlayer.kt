@@ -1,4 +1,4 @@
-package com.example.audioplayer.domain
+package com.example.audioplayer.domain.media
 
 import android.media.AudioAttributes
 import android.media.MediaPlayer
@@ -6,8 +6,6 @@ import com.example.audioplayer.domain.model.AudioFileDomain
 import com.example.audioplayer.presentation.utils.debugLog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import java.lang.reflect.Array.get
 
 class AudioPlayer(private val onAudioCompletion: () -> Unit) : MediaPlayer.OnPreparedListener,
     MediaPlayer.OnCompletionListener {

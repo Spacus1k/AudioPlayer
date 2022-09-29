@@ -1,15 +1,18 @@
-package com.example.audioplayer.domain.usecase
+package com.example.audioplayer.data
 
-import android.content.ContentResolver
+import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
+import com.example.audioplayer.domain.repository.AudioRepository
 import com.example.audioplayer.domain.model.AudioFileDomain
 import com.example.audioplayer.domain.model.AudioStatusDomain
 import com.example.audioplayer.presentation.utils.debugLog
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
-class GetAudioListUseCase @Inject constructor(private val contentResolver: ContentResolver) {
+class AudioRepositoryImpl @Inject constructor(@ApplicationContext val context: Context) :
+    AudioRepository {
 
     private val projection: Array<String> = arrayOf(
         MediaStore.Audio.AudioColumns.DISPLAY_NAME,
@@ -29,7 +32,7 @@ class GetAudioListUseCase @Inject constructor(private val contentResolver: Conte
 
     fun executeAsFlow(): MutableStateFlow<List<AudioFileDomain>> {
 
-        val audioCursor = contentResolver.query(
+        val audioCursor = context.contentResolver.query(
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
             projection,
             selectionClause,
@@ -45,8 +48,8 @@ class GetAudioListUseCase @Inject constructor(private val contentResolver: Conte
         )
     }
 
-    fun execute(): List<AudioFileDomain> {
-        val audioCursor = contentResolver.query(
+    override suspend fun getAudioData(): List<AudioFileDomain> {
+        val audioCursor = context.contentResolver.query(
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
             projection,
             selectionClause,
@@ -60,14 +63,15 @@ class GetAudioListUseCase @Inject constructor(private val contentResolver: Conte
         }
     }
 
-   private fun getAudioList(cursor: Cursor): MutableList<AudioFileDomain> {
+    private fun getAudioList(cursor: Cursor): MutableList<AudioFileDomain> {
         val audioList = mutableListOf<AudioFileDomain>()
         with(cursor) {
             val audioTitle = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE)
             val audioArtist = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ARTIST)
             val audioLocation = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DATA)
             val audioDuration = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DURATION)
-            val audioDisplayName = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME)
+            val audioDisplayName =
+                cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME)
             val id = getColumnIndexOrThrow(MediaStore.Audio.AudioColumns._ID)
 
             while (cursor.moveToNext()) {

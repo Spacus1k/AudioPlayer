@@ -2,8 +2,7 @@ package com.example.audioplayer.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.audioplayer.domain.usecase.GetAudioListUseCase
-import com.example.audioplayer.domain.usecase.AudioPlayerManager
+import com.example.audioplayer.domain.media.AudioPlayerManager
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.ui.model.AudioStatus
 import com.example.audioplayer.presentation.utils.debugLog
@@ -13,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class AudioViewModel(getAudioListUseCase: GetAudioListUseCase) : ViewModel() {
+class AudioViewModel() : ViewModel() {
 
     private val _audioList = MutableStateFlow<List<AudioFile>>(emptyList())
     val audioList: StateFlow<List<AudioFile>> = _audioList
@@ -33,11 +32,11 @@ class AudioViewModel(getAudioListUseCase: GetAudioListUseCase) : ViewModel() {
             }
         }
 
-        viewModelScope.launch {
-            getAudioListUseCase.executeAsFlow().collect { list ->
-                _audioList.value = list.toPresentation()
-            }
-        }
+//        viewModelScope.launch {
+//            getAudioListUseCase.executeAsFlow().collect { list ->
+//                _audioList.value = list.toPresentation()
+//            }
+//        }
     }
 
     fun seekTo(value: Float) {

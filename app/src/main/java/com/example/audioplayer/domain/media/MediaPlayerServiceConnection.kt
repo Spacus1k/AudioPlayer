@@ -8,18 +8,19 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.runtime.mutableStateOf
 import com.example.audioplayer.domain.model.AudioFileDomain
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-class MediaPlayerServiceConnection @Inject constructor(context: Context) {
+class MediaPlayerServiceConnection @Inject constructor(@ApplicationContext context: Context) {
 
     private val _plackBackState: MutableStateFlow<PlaybackStateCompat?> = MutableStateFlow(null)
     val plackBackState: StateFlow<PlaybackStateCompat?>
         get() = _plackBackState
 
-    private val _isConnected: MutableStateFlow<Boolean?> = MutableStateFlow(null)
-    val isConnected: StateFlow<Boolean?>
+    private val _isConnected: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isConnected: StateFlow<Boolean>
         get() = _isConnected
 
     val currentPlayingAudio = mutableStateOf<AudioFileDomain?>(null)
