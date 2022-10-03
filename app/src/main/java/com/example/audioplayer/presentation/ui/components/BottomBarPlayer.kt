@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -21,13 +21,13 @@ fun BottomBarPlayer(
     isAudioPlaying: Boolean,
     onStart: () -> Unit,
     onNext: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Column {
         Row(
             modifier = Modifier
-                .heightIn(60.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .height(56.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -51,10 +51,13 @@ fun BottomBarPlayer(
 @Composable
 fun AudioInfo(audioFile: AudioFile, modifier: Modifier) {
 
-    Row() {
+    Row(
+        modifier = modifier.padding(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
 
 
-        Column(Modifier.padding(start = 8.dp)) {
+        Column {
             Text(
                 text = audioFile.displayName,
                 fontWeight = FontWeight.Bold,
@@ -66,11 +69,13 @@ fun AudioInfo(audioFile: AudioFile, modifier: Modifier) {
             Text(
                 text = audioFile.artist,
                 fontWeight = FontWeight.Normal,
-                style = MaterialTheme.typography.subtitle2,
+                style = MaterialTheme.typography.subtitle1,
                 overflow = TextOverflow.Clip,
                 maxLines = 1
             )
         }
+
+
     }
 }
 
@@ -90,7 +95,6 @@ fun PreviewBottomBarPlayer() {
         ),
         isAudioPlaying = true,
         onStart = {},
-        modifier = Modifier,
         onNext = {}
     )
 }
