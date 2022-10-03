@@ -7,7 +7,6 @@ data class AudioFile(
     val location: String,
     val displayName: String,
     val duration: Float,
-    var status: AudioStatus = AudioStatus.STOPPED
 ) {
     override fun equals(other: Any?): Boolean =
         other is AudioFile && title == other.title && artist == other.artist
@@ -15,7 +14,7 @@ data class AudioFile(
     override fun hashCode(): Int {
         var result = title.hashCode()
         result = 31 * result + artist.hashCode()
-        result = 32 * result + status.hashCode()
+        result = 32 * result + displayName.hashCode()
         return result
     }
 }

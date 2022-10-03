@@ -8,7 +8,18 @@ import androidx.compose.ui.res.stringResource
 import com.example.audioplayer.R
 
 @Composable
-fun PermissionAlertDialogTest(onConfirm: () -> Unit, onDismiss: () -> Unit) {
+fun RationaleDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        title = { Text(text = stringResource(id = R.string.permission_dialog_title)) },
+        text = { Text(text = stringResource(id = R.string.permission_dialog_text)) },
+        onDismissRequest = { onDismiss() },
+        confirmButton = { TextButton(onClick = { onConfirm() }) { Text(text = stringResource(id = R.string.ok)) } },
+        dismissButton = { TextButton(onClick = { onDismiss() }) { Text(text = stringResource(id = R.string.cancel)) } },
+    )
+}
+
+@Composable
+fun AttentionDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
     AlertDialog(
         title = { Text(text = stringResource(id = R.string.permission_dialog_title)) },
         text = { Text(text = stringResource(id = R.string.permission_dialog_text)) },

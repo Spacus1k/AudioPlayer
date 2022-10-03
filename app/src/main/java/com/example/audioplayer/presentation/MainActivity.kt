@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.audioplayer.presentation.theme.AudioPlayerTheme
 import com.example.audioplayer.presentation.ui.screens.HomeScreen
-import com.example.audioplayer.presentation.ui.SecondAudioViewModel
+import com.example.audioplayer.presentation.ui.AudioViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     HomeScreen(
                         this,
-                        secondViewModel = viewModel(modelClass = SecondAudioViewModel::class.java)
+                        viewModel = viewModel(modelClass = AudioViewModel::class.java)
                     )
                 }
             }

@@ -5,7 +5,6 @@ import android.database.Cursor
 import android.provider.MediaStore
 import com.example.audioplayer.domain.repository.AudioRepository
 import com.example.audioplayer.domain.model.AudioFileDomain
-import com.example.audioplayer.domain.model.AudioStatusDomain
 import com.example.audioplayer.presentation.utils.debugLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -81,7 +80,6 @@ class AudioRepositoryImpl @Inject constructor(@ApplicationContext val context: C
                     artist = getString(audioArtist),
                     location = getString(audioLocation),
                     duration = getFloat(audioDuration),
-                    status = AudioStatusDomain.STOPPED,
                     displayName = getString(audioDisplayName)
                 )
                 audioList.add(audioFile)

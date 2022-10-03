@@ -56,6 +56,7 @@ fun AudioInfo(audioFile: AudioFile, modifier: Modifier) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
 
+        Spacer(modifier = Modifier.size(8.dp))
 
         Column {
             Text(

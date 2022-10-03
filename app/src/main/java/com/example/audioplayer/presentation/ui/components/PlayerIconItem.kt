@@ -22,7 +22,6 @@ fun PlayerIconItem(
     onClick: () -> Unit,
     modifier: Modifier
 ) {
-
     Surface(
         shape = CircleShape,
         border = border,

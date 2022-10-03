@@ -1,6 +1,5 @@
 package com.example.audioplayer.presentation.ui.screens
 
-import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,7 +17,6 @@ import com.example.audioplayer.presentation.ui.components.AudioFileItem
 import com.example.audioplayer.presentation.ui.components.BottomBarPlayer
 import com.example.audioplayer.presentation.ui.components.SearchField
 import com.example.audioplayer.presentation.ui.model.AudioFile
-import com.example.audioplayer.presentation.utils.EmptyAudioListScreen
 import com.example.audioplayer.presentation.utils.getFakeAudioFile
 import com.example.audioplayer.presentation.utils.getFakeAudioList
 
@@ -35,9 +33,7 @@ fun AudioListScreen(
     onNext: () -> Unit,
     onStart: (AudioFile) -> Unit,
 ) {
-
     val scaffoldState = rememberBottomSheetScaffoldState()
-
     val animatedHeight by animateDpAsState(
         targetValue = if (currentAudioFile == null) 0.dp
         else BottomSheetScaffoldDefaults.SheetPeekHeight
@@ -57,7 +53,8 @@ fun AudioListScreen(
             }
         },
         scaffoldState = scaffoldState,
-        sheetPeekHeight = animatedHeight) {
+        sheetPeekHeight = animatedHeight
+    ) {
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -67,7 +64,8 @@ fun AudioListScreen(
             if (audioList.isEmpty()) {
                 EmptyAudioListScreen(modifier = modifier)
             } else {
-                LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
+                LazyColumn(
+                    modifier = modifier.padding(top = 4.dp, bottom = animatedHeight)) {
                     items(audioList) { audio ->
                         AudioFileItem(
                             audioFile = audio,

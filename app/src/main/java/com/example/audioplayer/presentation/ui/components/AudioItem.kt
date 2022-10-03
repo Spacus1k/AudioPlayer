@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.audioplayer.R
 import com.example.audioplayer.presentation.ui.model.AudioFile
-import com.example.audioplayer.presentation.ui.model.AudioStatus
 
 @Composable
 fun AudioFileItem(
@@ -51,7 +50,6 @@ fun PreviewAudioFileItem() {
         artist = " Face",
         location = "",
         duration = 0f,
-        status = AudioStatus.STOPPED,
         displayName = " Lab"
     )
     AudioFileItem(audioFile, {}, Modifier)

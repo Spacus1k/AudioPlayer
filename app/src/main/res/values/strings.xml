@@ -13,5 +13,10 @@
     <string name="generic_error">The application has encountered an unexpected error.</string>
     <string name="error_media_not_found">Could not locate requested media.</string>
 
+    <string name="display_not_full_list">Possible to display a not full list of audio. Restart the app to fix it.</string>
+    <string name="restart">Restart</string>
+
+
+
 
 </resources>
