@@ -79,6 +79,22 @@ class AudioViewModel @Inject constructor(
         }
     }
 
+    fun  refreshAudioList() {
+        audioList = mutableStateListOf()
+        viewModelScope.launch {
+            audioList += getAndFormatAudioData()
+            isConnected.collect {
+                if (it) {
+                    rootMediaId = serviceConnection.rootMediaId
+                    serviceConnection.plackBackState.value?.apply {
+                        currentPlayBackPosition = position
+                    }
+                    serviceConnection.subscribe(rootMediaId, subscriptionCallback)
+                }
+            }
+        }
+    }
+
     fun playAudio(currentAudio: AudioFile) {
         serviceConnection.playAudio(audioList.toDomain())
         if (currentAudio.id == currentPlayingAudio.value?.id) {

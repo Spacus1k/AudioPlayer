@@ -5,18 +5,11 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="permission_dialog_title">Please grant permission</string>
-    <string name="permission_dialog_text">Need Read external storage permission</string>
+    <string name="not_permissions_text">The application will not be able to continue without the necessary permissions. Please grant permissions in settings.</string>
     <string name="empty_audio_list">Audio list is empty</string>
 
     <string name="notification_channel">Now Playing</string>
     <string name="notification_channel_description">Shows what music is currently playing in our App</string>
     <string name="generic_error">The application has encountered an unexpected error.</string>
     <string name="error_media_not_found">Could not locate requested media.</string>
-
-    <string name="display_not_full_list">Possible to display a not full list of audio. Restart the app to fix it.</string>
-    <string name="restart">Restart</string>
-
-
-
-
 </resources>
