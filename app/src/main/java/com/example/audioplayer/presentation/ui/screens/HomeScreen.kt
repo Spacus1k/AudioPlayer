@@ -19,6 +19,9 @@ fun HomeScreen(
         isAudioPlaying = viewModel.isAudioPlaying,
         onNext = { viewModel.skipToNext() },
         onStart = { viewModel.playAudio(it) },
-        progress = viewModel.currentAudioProgress.value
+        progress = viewModel.currentAudioProgress.value,
+        onSearchTextChanged = { viewModel.searchQuery.value = it },
+        searchText = viewModel.searchQuery.value,
+        onClearClick = { viewModel.searchQuery.value = "" }
     )
 }

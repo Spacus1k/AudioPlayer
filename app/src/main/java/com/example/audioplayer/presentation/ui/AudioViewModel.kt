@@ -38,6 +38,8 @@ class AudioViewModel @Inject constructor(
     val isAudioPlaying: Boolean
         get() = playbackSate.value?.isPlaying == true
 
+    var searchQuery = mutableStateOf("")
+
     private var subscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
         override fun onChildrenLoaded(
             parentId: String,
@@ -76,22 +78,6 @@ class AudioViewModel @Inject constructor(
             val displayName = audio.displayName.substringBefore(".")
             val artist = audio.artist
             audio.copy(displayName = displayName, artist = artist).toPresentation()
-        }
-    }
-
-    fun  refreshAudioList() {
-        audioList = mutableStateListOf()
-        viewModelScope.launch {
-            audioList += getAndFormatAudioData()
-            isConnected.collect {
-                if (it) {
-                    rootMediaId = serviceConnection.rootMediaId
-                    serviceConnection.plackBackState.value?.apply {
-                        currentPlayBackPosition = position
-                    }
-                    serviceConnection.subscribe(rootMediaId, subscriptionCallback)
-                }
-            }
         }
     }
 

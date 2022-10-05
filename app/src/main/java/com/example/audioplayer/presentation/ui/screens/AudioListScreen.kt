@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.audioplayer.presentation.ui.components.AudioFileItem
 import com.example.audioplayer.presentation.ui.components.BottomBarPlayer
@@ -32,13 +33,15 @@ fun AudioListScreen(
     modifier: Modifier,
     onNext: () -> Unit,
     onStart: (AudioFile) -> Unit,
+    searchText: String,
+    onSearchTextChanged: (String) -> Unit,
+    onClearClick: () -> Unit
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
     val animatedHeight by animateDpAsState(
         targetValue = if (currentAudioFile == null) 0.dp
         else BottomSheetScaffoldDefaults.SheetPeekHeight
     )
-
     BottomSheetScaffold(
         sheetContent = {
             currentAudioFile?.let { audio ->
@@ -60,20 +63,48 @@ fun AudioListScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colors.primaryVariant)
         ) {
-            SearchField(onValueChange = {}, modifier = modifier)
-            if (audioList.isEmpty()) {
-                EmptyAudioListScreen(modifier = modifier)
-            } else {
-                LazyColumn(
-                    modifier = modifier.padding(top = 4.dp, bottom = animatedHeight)) {
-                    items(audioList) { audio ->
-                        AudioFileItem(
-                            audioFile = audio,
-                            onAudioClick = { onAudioClick(audio) },
-                            modifier = modifier
-                        )
-                    }
-                }
+            SearchField(
+                searchText = searchText,
+                modifier = modifier,
+                onSearchTextChanged = onSearchTextChanged,
+                onClearClick = onClearClick
+            )
+            AudioList(
+                audioList = audioList,
+                animatedHeight = animatedHeight,
+                onAudioClick = onAudioClick,
+                modifier = modifier,
+                searchText
+            )
+        }
+    }
+}
+
+@Composable
+fun AudioList(
+    audioList: List<AudioFile>,
+    animatedHeight: Dp,
+    onAudioClick: (AudioFile) -> Unit,
+    modifier: Modifier,
+    searchText: String
+) {
+    if (audioList.isEmpty()) {
+        EmptyAudioListScreen(modifier = modifier)
+    } else {
+        LazyColumn(
+            modifier = modifier.padding(top = 4.dp, bottom = animatedHeight)
+        ) {
+            val filteredList = audioList.filter { audio ->
+                audio.displayName.contains(searchText, true) || audio.artist.contains(
+                    searchText, true
+                )
+            }
+            items(filteredList) { audio ->
+                AudioFileItem(
+                    audioFile = audio,
+                    onAudioClick = { onAudioClick(audio) },
+                    modifier = modifier
+                )
             }
         }
     }
@@ -89,6 +120,9 @@ fun PreviewAudioListScreen() {
         onStart = {},
         onNext = {},
         isAudioPlaying = false,
-        progress = 0f
+        progress = 0f,
+        searchText = "",
+        onSearchTextChanged = {},
+        onClearClick = {}
     )
 }
