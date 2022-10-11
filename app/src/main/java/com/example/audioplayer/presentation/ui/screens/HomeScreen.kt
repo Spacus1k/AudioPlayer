@@ -18,6 +18,8 @@ fun HomeScreen(
         onProgressChange = { viewModel.seekTo(it) },
         isAudioPlaying = viewModel.isAudioPlaying,
         onNext = { viewModel.skipToNext() },
+        onPrevious = { viewModel.rewind() },
+        onRestart = { viewModel.skipToPrevious()},
         onStart = { viewModel.playAudio(it) },
         progress = viewModel.currentAudioProgress.value,
         onSearchTextChanged = { viewModel.searchQuery.value = it },

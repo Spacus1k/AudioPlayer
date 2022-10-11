@@ -18,32 +18,23 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = CyanBlue,
+    primary = Blue,
     primaryVariant = CyanAlabaster,
-    onPrimary = DarkSlateGray,
-    secondary = CyanAlabaster,
-    onSecondary = Color.Black,
+    secondary = DarkSlateGray,
+    secondaryVariant = Color.Black,
     error = Blue,
-    surface = CyanAlabaster
-
-
-    /* Other default colors to override
-    background = Color.White,
     surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    background = Color.White,
 )
 
 @Composable
 fun AudioPlayerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
+    val colors =
+        //if (darkTheme) {
+        //DarkColorPalette
+    //} else {
         LightColorPalette
-    }
+    //}
 
     MaterialTheme(
         colors = colors,

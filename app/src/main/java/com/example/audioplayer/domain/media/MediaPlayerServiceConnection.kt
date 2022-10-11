@@ -65,6 +65,10 @@ class MediaPlayerServiceConnection @Inject constructor(@ApplicationContext conte
         transportControl.skipToNext()
     }
 
+    fun skipToPrevious() {
+        transportControl.skipToPrevious()
+    }
+
     fun subscribe(
         parentId: String,
         callback: MediaBrowserCompat.SubscriptionCallback

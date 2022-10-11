@@ -22,7 +22,7 @@ fun AudioFileItem(
     Card(modifier = modifier) {
         Button(
             modifier = modifier,
-            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.surface),
             onClick = { onAudioClick(audioFile.id) }) {
 
             Row(modifier = modifier.fillMaxWidth()) {
@@ -43,7 +43,8 @@ fun AudioFileItem(
                     Text(
                         text = audioFile.artist,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.4f)
                     )
                 }
             }

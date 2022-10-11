@@ -1,5 +1,6 @@
 package com.example.audioplayer.presentation.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -23,10 +24,12 @@ fun BottomBarPlayer(
     audioFile: AudioFile,
     isAudioPlaying: Boolean,
     onStart: () -> Unit,
+    onRestart: () -> Unit,
     onNext: () -> Unit,
+    onPrevious: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(modifier = modifier.background(MaterialTheme.colors.primary.copy(alpha = 0.3f))) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -40,6 +43,8 @@ fun BottomBarPlayer(
                 isAudioPlaying = isAudioPlaying,
                 onStart = onStart,
                 onNext = onNext,
+                onRestart = onRestart,
+                onPrevious = onPrevious,
                 modifier = Modifier
             )
         }
@@ -84,7 +89,6 @@ fun AudioSlider(
 
 @Composable
 fun AudioInfo(audioFile: AudioFile, modifier: Modifier) {
-
     Row(
         modifier = modifier.padding(4.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -128,6 +132,8 @@ fun PreviewBottomBarPlayer() {
         ),
         isAudioPlaying = true,
         onStart = {},
+        onRestart = {},
+        onPrevious = {},
         onNext = {}
     )
 }
