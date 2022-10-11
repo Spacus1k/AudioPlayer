@@ -2,6 +2,7 @@ package com.example.audioplayer.presentation.ui.screens
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -92,6 +93,7 @@ fun AudioList(
         EmptyAudioListScreen(modifier = modifier)
     } else {
         LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = modifier.padding(top = 4.dp, bottom = animatedHeight)
         ) {
             val filteredList = audioList.filter { audio ->

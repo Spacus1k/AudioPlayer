@@ -37,7 +37,7 @@ fun SearchField(
     var showClearButton by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
-    TextField(
+    OutlinedTextField(
         value = searchText,
         onValueChange = onSearchTextChanged,
         modifier = modifier

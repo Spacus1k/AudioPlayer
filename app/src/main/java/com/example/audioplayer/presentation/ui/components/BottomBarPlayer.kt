@@ -27,7 +27,7 @@ fun BottomBarPlayer(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
+                .height(60.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -56,11 +56,11 @@ fun AudioInfo(audioFile: AudioFile, modifier: Modifier) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
 
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacer(modifier = Modifier.size(4.dp))
 
         Column {
             Text(
-                text = audioFile.displayName,
+                text = audioFile.title,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.h6,
                 maxLines = 1
