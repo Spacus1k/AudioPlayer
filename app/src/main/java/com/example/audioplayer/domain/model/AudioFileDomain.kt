@@ -1,15 +1,15 @@
-package com.example.audioplayer.presentation.ui.model
+package com.example.audioplayer.domain.model
 
-data class AudioFile(
+data class AudioFileDomain(
     val id: Long,
     val title: String,
     val artist: String,
-    val location: String,
     val displayName: String,
+    val location: String,
     val duration: Float,
 ) {
     override fun equals(other: Any?): Boolean =
-        other is AudioFile && title == other.title && artist == other.artist
+        other is AudioFileDomain && title == other.title && artist == other.artist
 
     override fun hashCode(): Int {
         var result = title.hashCode()
@@ -18,4 +18,3 @@ data class AudioFile(
         return result
     }
 }
-
