@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.audioplayer.presentation.theme.AudioPlayerTheme
 import com.example.audioplayer.presentation.ui.AudioViewModel
@@ -23,10 +20,7 @@ class MainActivity : ComponentActivity() {
         registerForActivityResult(RequestMultiplePermissions()) { permissionsStatusMap ->
             setContent {
                 AudioPlayerTheme {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colors.background
-                    ) {
+                    Surface{
                         if (!permissionsStatusMap.containsValue(false)) {
                             HomeScreen(viewModel = viewModel(modelClass = AudioViewModel::class.java))
                         } else {

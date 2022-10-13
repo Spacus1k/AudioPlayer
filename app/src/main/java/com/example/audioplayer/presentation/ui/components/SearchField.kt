@@ -10,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
@@ -35,19 +34,31 @@ import com.example.audioplayer.R
 @Composable
 fun TopBarWithSearch(
     searchText: String,
-    onSearchTextChanged: (String) -> Unit = {},
+    onSearchTextChanged: (String) -> Unit,
     onClearClick: () -> Unit,
 ) {
+    val modifier = Modifier
+        .padding(horizontal = 16.dp, vertical = 8.dp)
+
     var isSearchExpanded by remember { mutableStateOf(false) }
-    if (isSearchExpanded) {
-        ExpandedSearchBar(
-            searchText = searchText,
-            onClearClick = { onClearClick() },
-            onBackPressed = { isSearchExpanded = false },
-            onSearchTextChanged = onSearchTextChanged,
-        )
-    } else {
-        CollapsedSearchBar(onIconClicked = { isSearchExpanded = true })
+    Surface(
+        color = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.secondaryVariant,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)
+    ) {
+        if (isSearchExpanded) {
+            ExpandedSearchBar(
+                searchText = searchText,
+                onClearClick = { onClearClick() },
+                onBackPressed = { isSearchExpanded = false },
+                onSearchTextChanged = onSearchTextChanged,
+                modifier = modifier
+            )
+        } else {
+            CollapsedSearchBar(onIconClicked = { isSearchExpanded = true }, modifier = modifier)
+        }
     }
 }
 
@@ -68,22 +79,18 @@ fun ExpandedSearchBar(
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
-
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
         modifier = modifier
-            .padding(8.dp)
             .clip(shape = RoundedCornerShape(8.dp))
-            .fillMaxWidth()
-            .height(56.dp)
             .background(Color.Black.copy(alpha = 0.1f))
     ) {
         Icon(
             imageVector = Icons.Default.ArrowBack,
             contentDescription = null,
-            modifier
-                .padding(16.dp)
+            Modifier
+                .padding(8.dp)
                 .clickable {
                     onBackPressed()
                     onClearClick()
@@ -93,12 +100,12 @@ fun ExpandedSearchBar(
         TextField(
             value = searchText,
             onValueChange = onSearchTextChanged,
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
+                .focusRequester(focusRequester)
                 .onFocusChanged { focusState ->
                     showClearButton = focusState.isFocused
-                }
-                .focusRequester(focusRequester),
+                },
             colors = TextFieldDefaults.textFieldColors(
                 disabledTextColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
@@ -130,7 +137,7 @@ fun ExpandedSearchBar(
                         }
                     }
                 }
-            },
+            }
         )
     }
 }
@@ -138,22 +145,19 @@ fun ExpandedSearchBar(
 @Composable
 fun CollapsedSearchBar(onIconClicked: () -> Unit, modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .padding(horizontal = 16.dp),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+        verticalAlignment = Alignment.CenterVertically,
+
+        ) {
         Text(
             text = "Tracks",
-            style = MaterialTheme.typography.h6,
-            modifier = modifier.padding(start = 16.dp)
+            style = MaterialTheme.typography.h6
         )
         Icon(
             imageVector = Icons.Default.Search,
             contentDescription = null,
-            modifier
+            Modifier
                 .size(35.dp)
                 .padding(end = 4.dp)
                 .clickable { onIconClicked() }

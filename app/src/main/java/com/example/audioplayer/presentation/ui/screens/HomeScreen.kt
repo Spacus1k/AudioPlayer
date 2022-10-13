@@ -1,14 +1,12 @@
 package com.example.audioplayer.presentation.ui.screens
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import com.example.audioplayer.presentation.ui.AudioViewModel
 import com.example.audioplayer.presentation.ui.components.BottomPlayerAction
 import com.example.audioplayer.presentation.utils.toPresentation
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     viewModel: AudioViewModel,
 ) {
     AudioListScreen(

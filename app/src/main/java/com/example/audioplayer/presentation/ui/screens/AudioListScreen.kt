@@ -69,7 +69,7 @@ fun AudioListScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colors.primary.copy(alpha = 0.3f))
                 //.background(MaterialTheme.colors.surface)
-                .padding(top = 4.dp, bottom = animatedHeight)
+                .padding(bottom = animatedHeight)
         )
     }
 }

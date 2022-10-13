@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
+import androidx.compose.material.SliderDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,7 +28,7 @@ fun BottomBarPlayer(
     onPlayerAction: (BottomPlayerAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.background(MaterialTheme.colors.primary.copy(alpha = 0.3f))) {
+    Column(modifier = modifier.background(MaterialTheme.colors.primary)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -79,6 +81,11 @@ fun AudioSlider(
         onValueChange = {
             localSliderValue = it
         },
+        colors = SliderDefaults.colors(
+            thumbColor = MaterialTheme.colors.primaryVariant,
+            activeTrackColor = MaterialTheme.colors.primaryVariant,
+            inactiveTrackColor = Color.Black.copy(alpha = 0.1f)
+        ),
         interactionSource = interactionSource,
         onValueChangeFinished = {
             onProgressChange(sliderValue)
