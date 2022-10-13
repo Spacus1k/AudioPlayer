@@ -12,28 +12,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.audioplayer.R
 import com.example.audioplayer.presentation.ui.model.AudioFile
+import com.example.audioplayer.presentation.utils.getFakeAudioFile
 
 @Composable
 fun AudioFileItem(
     audioFile: AudioFile,
     onAudioClick: (id: Long) -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier) {
         Button(
-            modifier = modifier,
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.surface),
             onClick = { onAudioClick(audioFile.id) }) {
 
-            Row(modifier = modifier.fillMaxWidth()) {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_baseline_music_note_24),
                     contentDescription = "Song cover",
                     modifier = Modifier
                         .size(50.dp)
                 )
-
-                Column(modifier = modifier.padding(8.dp)) {
+                Column(modifier = Modifier.padding(8.dp)) {
                     Text(
                         text = audioFile.title,
                         fontSize = 16.sp,
@@ -55,13 +54,6 @@ fun AudioFileItem(
 @Composable
 @Preview
 fun PreviewAudioFileItem() {
-    val audioFile = AudioFile(
-        id = 0,
-        title = "Labirint",
-        artist = " Face",
-        location = "",
-        duration = 0f,
-        displayName = " Lab"
-    )
-    AudioFileItem(audioFile, {}, Modifier)
+    val audioFile = getFakeAudioFile()
+    AudioFileItem(audioFile, {})
 }

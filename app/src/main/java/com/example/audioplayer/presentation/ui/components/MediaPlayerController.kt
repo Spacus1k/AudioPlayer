@@ -20,11 +20,10 @@ fun MediaPlayerController(
     onNext: () -> Unit,
     onPrevious: () -> Unit,
     onRestart: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
+        modifier = Modifier
             .height(64.dp)
             .padding(4.dp)
     ) {
@@ -32,7 +31,7 @@ fun MediaPlayerController(
         Icon(
             imageVector = Icons.Default.SkipPrevious,
             contentDescription = null,
-            modifier = modifier.pointerInput(Unit) {
+            modifier = Modifier.pointerInput(Unit) {
                 detectTapGestures(
                     onPress = { onRestart() },
                     onDoubleTap = { onPrevious() },
@@ -45,14 +44,13 @@ fun MediaPlayerController(
             icon = if (isAudioPlaying) Icons.Default.Pause
             else Icons.Default.PlayArrow,
             onClick = { onStart() },
-            modifier = modifier
         )
         Spacer(modifier = Modifier.size(8.dp))
 
         Icon(
             imageVector = Icons.Default.SkipNext,
             contentDescription = null,
-            modifier = modifier.clickable { onNext() }
+            modifier = Modifier.clickable { onNext() }
         )
     }
 }

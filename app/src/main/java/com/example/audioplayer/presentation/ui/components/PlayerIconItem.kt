@@ -20,19 +20,18 @@ fun PlayerIconItem(
     icon: ImageVector,
     border: BorderStroke? = null,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Surface(
         shape = CircleShape,
         border = border,
-        modifier = modifier
+        modifier = Modifier
             .clip(CircleShape)
             .clickable { onClick() },
         contentColor = MaterialTheme.colors.onSurface,
         color = MaterialTheme.colors.surface
     ) {
         Box(
-            modifier = modifier.padding(4.dp),
+            modifier = Modifier.padding(4.dp),
             contentAlignment = Alignment.Center
         ) {
             Icon(imageVector = icon, contentDescription = null)

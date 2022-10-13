@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.audioplayer.presentation.ui.model.AudioFile
+import com.example.audioplayer.presentation.utils.getFakeAudioFile
 
 @Composable
 fun BottomBarPlayer(
@@ -33,7 +34,7 @@ fun BottomBarPlayer(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            AudioInfo(audioFile = audioFile, modifier = modifier.weight(1f))
+            AudioInfo(audioFile = audioFile, modifier = Modifier.weight(1f))
 
             MediaPlayerController(
                 isAudioPlaying = isAudioPlaying,
@@ -86,7 +87,7 @@ fun AudioSlider(
 }
 
 @Composable
-fun AudioInfo(audioFile: AudioFile, modifier: Modifier) {
+fun AudioInfo(audioFile: AudioFile, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier.padding(4.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -99,7 +100,8 @@ fun AudioInfo(audioFile: AudioFile, modifier: Modifier) {
                 text = audioFile.title,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.h6,
-                maxLines = 1
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.size(4.dp))
 
@@ -107,7 +109,7 @@ fun AudioInfo(audioFile: AudioFile, modifier: Modifier) {
                 text = audioFile.artist,
                 fontWeight = FontWeight.Normal,
                 style = MaterialTheme.typography.subtitle1,
-                overflow = TextOverflow.Clip,
+                overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
         }
@@ -119,14 +121,7 @@ fun AudioInfo(audioFile: AudioFile, modifier: Modifier) {
 fun PreviewBottomBarPlayer() {
     BottomBarPlayer(
         progress = 100f,
-        audioFile = AudioFile(
-            id = 0,
-            title = "Рыть",
-            artist = "Face",
-            "D",
-            displayName = "test",
-            0f
-        ),
+        audioFile = getFakeAudioFile(),
         isAudioPlaying = true,
         onPlayerAction = {}
     )
