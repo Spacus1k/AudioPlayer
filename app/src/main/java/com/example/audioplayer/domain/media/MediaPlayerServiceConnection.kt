@@ -61,6 +61,10 @@ class MediaPlayerServiceConnection @Inject constructor(@ApplicationContext conte
         }
     }
 
+    fun restart() {
+        transportControl.seekTo(0)
+    }
+
     fun skipToNext() {
         transportControl.skipToNext()
     }
@@ -83,7 +87,7 @@ class MediaPlayerServiceConnection @Inject constructor(@ApplicationContext conte
         mediaBrowser.unsubscribe(parentId, callback)
     }
 
-    fun refreshMediaBrowserChildren(){
+    fun refreshMediaBrowserChildren() {
         mediaBrowser.sendCustomAction(Constants.REFRESH_MEDIA_PLAY_ACTION, null, null)
     }
 

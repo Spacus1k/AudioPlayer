@@ -20,13 +20,9 @@ import com.example.audioplayer.presentation.ui.model.AudioFile
 @Composable
 fun BottomBarPlayer(
     progress: Float,
-    onProgressChange: (Float) -> Unit,
     audioFile: AudioFile,
     isAudioPlaying: Boolean,
-    onStart: () -> Unit,
-    onRestart: () -> Unit,
-    onNext: () -> Unit,
-    onPrevious: () -> Unit,
+    onPlayerAction: (BottomPlayerAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.background(MaterialTheme.colors.primary.copy(alpha = 0.3f))) {
@@ -41,14 +37,16 @@ fun BottomBarPlayer(
 
             MediaPlayerController(
                 isAudioPlaying = isAudioPlaying,
-                onStart = onStart,
-                onNext = onNext,
-                onRestart = onRestart,
-                onPrevious = onPrevious,
-                modifier = Modifier
+                onStart = { onPlayerAction(BottomPlayerAction.OnStart(audioFile)) },
+                onNext = { onPlayerAction(BottomPlayerAction.OnNext) },
+                onRestart = { onPlayerAction(BottomPlayerAction.OnRestart) },
+                onPrevious = { onPlayerAction(BottomPlayerAction.OnPrevious) },
             )
         }
-        AudioSlider(progress = progress, onProgressChange = onProgressChange)
+        AudioSlider(
+            progress = progress,
+            onProgressChange = { onPlayerAction(BottomPlayerAction.OnProgressChange(it)) }
+        )
     }
 }
 
@@ -121,7 +119,6 @@ fun AudioInfo(audioFile: AudioFile, modifier: Modifier) {
 fun PreviewBottomBarPlayer() {
     BottomBarPlayer(
         progress = 100f,
-        onProgressChange = {},
         audioFile = AudioFile(
             id = 0,
             title = "Рыть",
@@ -131,9 +128,14 @@ fun PreviewBottomBarPlayer() {
             0f
         ),
         isAudioPlaying = true,
-        onStart = {},
-        onRestart = {},
-        onPrevious = {},
-        onNext = {}
+        onPlayerAction = {}
     )
+}
+
+sealed class BottomPlayerAction {
+    object OnNext : BottomPlayerAction()
+    object OnPrevious : BottomPlayerAction()
+    object OnRestart : BottomPlayerAction()
+    class OnStart(val audioFile: AudioFile) : BottomPlayerAction()
+    class OnProgressChange(val value: Float) : BottomPlayerAction()
 }

@@ -109,6 +109,10 @@ class AudioViewModel @Inject constructor(
         serviceConnection.rewind()
     }
 
+    fun restart() {
+        serviceConnection.restart()
+    }
+
     fun skipToNext() {
         serviceConnection.skipToNext()
     }

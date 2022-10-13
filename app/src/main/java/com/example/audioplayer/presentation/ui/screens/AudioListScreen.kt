@@ -2,7 +2,6 @@ package com.example.audioplayer.presentation.ui.screens
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +16,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.audioplayer.presentation.ui.components.AudioFileItem
 import com.example.audioplayer.presentation.ui.components.BottomBarPlayer
+import com.example.audioplayer.presentation.ui.components.BottomPlayerAction
 import com.example.audioplayer.presentation.ui.components.TopBarWithSearch
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.utils.getFakeAudioFile
@@ -30,15 +30,10 @@ fun AudioListScreen(
     currentAudioFile: AudioFile?,
     isAudioPlaying: Boolean,
     progress: Float,
-    onProgressChange: (Float) -> Unit,
-    modifier: Modifier,
-    onNext: () -> Unit,
-    onPrevious: () -> Unit,
-    onRestart: () -> Unit,
-    onStart: (AudioFile) -> Unit,
     searchText: String,
     onSearchTextChanged: (String) -> Unit,
-    onClearClick: () -> Unit
+    onClearClick: () -> Unit,
+    onPlayerAction: (BottomPlayerAction) -> Unit,
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
     val animatedHeight by animateDpAsState(
@@ -50,13 +45,9 @@ fun AudioListScreen(
             currentAudioFile?.let { audio ->
                 BottomBarPlayer(
                     progress = progress,
-                    onProgressChange = onProgressChange,
                     audioFile = audio,
                     isAudioPlaying = isAudioPlaying,
-                    onNext = { onNext() },
-                    onPrevious = { onPrevious() },
-                    onRestart = { onRestart() },
-                    onStart = { onStart(audio) },
+                    onPlayerAction = onPlayerAction
                 )
             }
         },
@@ -70,7 +61,6 @@ fun AudioListScreen(
         ) {
             TopBarWithSearch(
                 searchText = searchText,
-                modifier = modifier,
                 onSearchTextChanged = onSearchTextChanged,
                 onClearClick = onClearClick,
             )
@@ -78,8 +68,7 @@ fun AudioListScreen(
                 audioList = audioList,
                 animatedHeight = animatedHeight,
                 onAudioClick = onAudioClick,
-                modifier = modifier,
-                searchText
+                searchText = searchText
             )
         }
     }
@@ -90,8 +79,8 @@ fun AudioList(
     audioList: List<AudioFile>,
     animatedHeight: Dp,
     onAudioClick: (AudioFile) -> Unit,
-    modifier: Modifier,
-    searchText: String
+    searchText: String,
+    modifier: Modifier = Modifier
 ) {
     if (audioList.isEmpty()) {
         EmptyAudioListScreen(modifier = modifier)
@@ -124,17 +113,12 @@ fun PreviewAudioListScreen() {
     AudioListScreen(
         audioList = getFakeAudioList(),
         onAudioClick = {},
-        modifier = Modifier,
         currentAudioFile = getFakeAudioFile(),
-        onProgressChange = {},
-        onStart = {},
-        onNext = {},
-        onPrevious = {},
         isAudioPlaying = false,
         progress = 0f,
         searchText = "",
         onSearchTextChanged = {},
         onClearClick = {},
-        onRestart = {}
+        onPlayerAction = {}
     )
 }

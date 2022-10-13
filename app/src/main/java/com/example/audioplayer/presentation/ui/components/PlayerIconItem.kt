@@ -20,7 +20,7 @@ fun PlayerIconItem(
     icon: ImageVector,
     border: BorderStroke? = null,
     onClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Surface(
         shape = CircleShape,

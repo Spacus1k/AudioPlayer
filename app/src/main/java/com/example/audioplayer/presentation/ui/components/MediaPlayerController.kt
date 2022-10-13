@@ -20,7 +20,7 @@ fun MediaPlayerController(
     onNext: () -> Unit,
     onPrevious: () -> Unit,
     onRestart: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -65,7 +65,6 @@ fun PreviewMediaPlayerController() {
         onStart = {},
         onPrevious = {},
         onNext = {},
-        onRestart = {},
-        modifier = Modifier
+        onRestart = {}
     )
 }

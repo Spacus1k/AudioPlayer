@@ -37,7 +37,6 @@ fun TopBarWithSearch(
     searchText: String,
     onSearchTextChanged: (String) -> Unit = {},
     onClearClick: () -> Unit,
-    modifier: Modifier
 ) {
     var isSearchExpanded by remember { mutableStateOf(false) }
     if (isSearchExpanded) {
@@ -46,7 +45,6 @@ fun TopBarWithSearch(
             onClearClick = { onClearClick() },
             onBackPressed = { isSearchExpanded = false },
             onSearchTextChanged = onSearchTextChanged,
-            modifier = modifier,
         )
     } else {
         CollapsedSearchBar(onIconClicked = { isSearchExpanded = true })
@@ -60,7 +58,7 @@ fun ExpandedSearchBar(
     onSearchTextChanged: (String) -> Unit,
     onBackPressed: () -> Unit,
     onClearClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     var showClearButton by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
