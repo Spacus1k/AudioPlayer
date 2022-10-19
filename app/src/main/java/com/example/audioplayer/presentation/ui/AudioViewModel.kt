@@ -1,10 +1,7 @@
 package com.example.audioplayer.presentation.ui
 
 import android.support.v4.media.MediaBrowserCompat
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.audioplayer.domain.media.Constants
@@ -27,13 +24,15 @@ class AudioViewModel @Inject constructor(
     serviceConnection: MediaPlayerServiceConnection
 ) : ViewModel() {
 
-    var audioList = mutableStateListOf<AudioFile>()
+    private val allAudioList = mutableListOf<AudioFile>()
+    var filteredList = mutableStateListOf<AudioFile>()
     val currentPlayingAudio = serviceConnection.currentPlayingAudio
     private val isConnected = serviceConnection.isConnected
     lateinit var rootMediaId: String
     var currentPlayBackPosition by mutableStateOf(0L)
     private var updatePosition = true
 
+    val allAudioListIsNotEmpty = mutableStateOf(allAudioList.isNotEmpty())
     private val playbackSate = serviceConnection.plackBackState
     val isAudioPlaying: Boolean
         get() = playbackSate.value?.isPlaying == true
@@ -60,7 +59,9 @@ class AudioViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            audioList += getAndFormatAudioData()
+            allAudioList += getAndFormatAudioData()
+            filteredList += getAndFormatAudioData()
+            allAudioListIsNotEmpty.value = allAudioList.isNotEmpty()
             isConnected.collect {
                 if (it) {
                     rootMediaId = serviceConnection.rootMediaId
@@ -76,13 +77,14 @@ class AudioViewModel @Inject constructor(
     private suspend fun getAndFormatAudioData(): List<AudioFile> {
         return getAudioListUseCase.getAudioList().map { audio ->
             val displayName = audio.displayName.substringBefore(".")
+            val title = audio.title.substringBefore(".")
             val artist = audio.artist
-            audio.copy(displayName = displayName, artist = artist).toPresentation()
+            audio.copy(title = title, displayName = displayName, artist = artist).toPresentation()
         }
     }
 
     fun playAudio(currentAudio: AudioFile) {
-        serviceConnection.playAudio(audioList.toDomain())
+        serviceConnection.playAudio(allAudioList.toDomain())
         if (currentAudio.id == currentPlayingAudio.value?.id) {
             if (isAudioPlaying) {
                 serviceConnection.transportControl.pause()
@@ -95,6 +97,20 @@ class AudioViewModel @Inject constructor(
                 null
             )
         }
+    }
+
+    fun setSearchQuery(query: String) {
+        searchQuery.value = query
+        filterListBySearch(query)
+    }
+
+    private fun filterListBySearch(query: String) {
+        filteredList =
+            allAudioList.filter { audio ->
+                audio.title.contains(query, true) || audio.artist.contains(
+                    query, true
+                )
+            }.toMutableStateList()
     }
 
     fun stopPlayback() {

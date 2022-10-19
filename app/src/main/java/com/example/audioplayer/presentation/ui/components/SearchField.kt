@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -19,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -34,11 +37,10 @@ import com.example.audioplayer.R
 @Composable
 fun TopBarWithSearch(
     searchText: String,
-    onSearchTextChanged: (String) -> Unit,
-    onClearClick: () -> Unit,
+    focusManager: FocusManager,
+    onSearchBarAction: (SearchBarAction) -> Unit,
 ) {
-    val modifier = Modifier
-        .padding(horizontal = 16.dp, vertical = 8.dp)
+    val modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
 
     var isSearchExpanded by remember { mutableStateOf(false) }
     Surface(
@@ -51,9 +53,9 @@ fun TopBarWithSearch(
         if (isSearchExpanded) {
             ExpandedSearchBar(
                 searchText = searchText,
-                onClearClick = { onClearClick() },
                 onBackPressed = { isSearchExpanded = false },
-                onSearchTextChanged = onSearchTextChanged,
+                onSearchBarAction = onSearchBarAction,
+                focusManager = focusManager,
                 modifier = modifier
             )
         } else {
@@ -66,15 +68,14 @@ fun TopBarWithSearch(
 @Composable
 fun ExpandedSearchBar(
     searchText: String,
-    onSearchTextChanged: (String) -> Unit,
     onBackPressed: () -> Unit,
-    onClearClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onSearchBarAction: (SearchBarAction) -> Unit,
+    modifier: Modifier = Modifier,
+    focusManager: FocusManager = LocalFocusManager.current,
 ) {
     var showClearButton by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = FocusRequester()
-    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -93,52 +94,60 @@ fun ExpandedSearchBar(
                 .padding(8.dp)
                 .clickable {
                     onBackPressed()
-                    onClearClick()
+                    onSearchBarAction(SearchBarAction.OnClearClick)
                 }
         )
 
-        TextField(
-            value = searchText,
-            onValueChange = onSearchTextChanged,
-            modifier = Modifier
-                .fillMaxWidth()
-                .focusRequester(focusRequester)
-                .onFocusChanged { focusState ->
-                    showClearButton = focusState.isFocused
-                },
-            colors = TextFieldDefaults.textFieldColors(
-                disabledTextColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                backgroundColor = Color.Transparent,
-                cursorColor = Color.Black
-            ),
-            maxLines = 1,
-            singleLine = true,
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-            placeholder = { Text(stringResource(id = R.string.search)) },
-            keyboardActions = KeyboardActions(onDone = {
-                focusManager.clearFocus()
-                keyboardController?.hide()
-            }),
-            trailingIcon = {
-                if (searchText.isNotEmpty()) {
-                    AnimatedVisibility(
-                        visible = showClearButton,
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        IconButton(onClick = { onClearClick() }) {
-                            Icon(
-                                imageVector = Icons.Filled.Close,
-                                contentDescription = null
-                            )
+        val customTextSelectionColors = TextSelectionColors(
+            handleColor = MaterialTheme.colors.primaryVariant,
+            backgroundColor = MaterialTheme.colors.primaryVariant.copy(alpha = 0.4f)
+        )
+
+        CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
+            TextField(
+                value = searchText,
+                onValueChange = { onSearchBarAction(SearchBarAction.OnSearchTextChanged(it)) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester)
+                    .onFocusChanged { focusState ->
+                        showClearButton = focusState.isFocused
+                    },
+                colors = TextFieldDefaults.textFieldColors(
+                    disabledTextColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    backgroundColor = Color.Transparent,
+                    cursorColor = MaterialTheme.colors.secondaryVariant
+                ),
+                maxLines = 1,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                placeholder = { Text(stringResource(id = R.string.search)) },
+                keyboardActions = KeyboardActions(onDone = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                }),
+
+                trailingIcon = {
+                    if (searchText.isNotEmpty()) {
+                        AnimatedVisibility(
+                            visible = showClearButton,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            IconButton(onClick = { onSearchBarAction(SearchBarAction.OnClearClick) }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
+                                    contentDescription = null
+                                )
+                            }
                         }
                     }
                 }
-            }
-        )
+            )
+        }
     }
 }
 
@@ -170,10 +179,9 @@ fun CollapsedSearchBar(onIconClicked: () -> Unit, modifier: Modifier = Modifier)
 fun PreviewSearchField() {
     ExpandedSearchBar(
         searchText = "",
-        onSearchTextChanged = {},
         modifier = Modifier,
-        onClearClick = {},
-        onBackPressed = {},
+        onSearchBarAction = {},
+        onBackPressed = {}
     )
 }
 
@@ -181,4 +189,11 @@ fun PreviewSearchField() {
 @Preview
 fun PreviewCollapsedSearchBar() {
     CollapsedSearchBar(onIconClicked = {})
+}
+
+
+
+sealed class SearchBarAction {
+    class OnSearchTextChanged(val query: String) : SearchBarAction()
+    object OnClearClick : SearchBarAction()
 }

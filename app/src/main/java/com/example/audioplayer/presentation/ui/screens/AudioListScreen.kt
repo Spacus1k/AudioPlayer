@@ -11,12 +11,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.audioplayer.presentation.ui.components.AudioFileItem
-import com.example.audioplayer.presentation.ui.components.BottomBarPlayer
-import com.example.audioplayer.presentation.ui.components.BottomPlayerAction
-import com.example.audioplayer.presentation.ui.components.TopBarWithSearch
+import com.example.audioplayer.presentation.ui.components.*
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.utils.getFakeAudioFile
 import com.example.audioplayer.presentation.utils.getFakeAudioList
@@ -24,14 +22,14 @@ import com.example.audioplayer.presentation.utils.getFakeAudioList
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AudioListScreen(
-    audioList: List<AudioFile>,
+    filteredAudioList: List<AudioFile>,
     onAudioClick: (AudioFile) -> Unit,
     currentAudioFile: AudioFile?,
     isAudioPlaying: Boolean,
     progress: Float,
     searchText: String,
-    onSearchTextChanged: (String) -> Unit,
-    onClearClick: () -> Unit,
+    allAudioListIsNotEmpty: Boolean,
+    onSearchBarAction: (SearchBarAction) -> Unit,
     onPlayerAction: (BottomPlayerAction) -> Unit,
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -39,12 +37,14 @@ fun AudioListScreen(
         targetValue = if (currentAudioFile == null) 0.dp
         else BottomSheetScaffoldDefaults.SheetPeekHeight
     )
+    val focusManager = LocalFocusManager.current
+
     BottomSheetScaffold(
         topBar = {
             TopBarWithSearch(
                 searchText = searchText,
-                onSearchTextChanged = onSearchTextChanged,
-                onClearClick = onClearClick,
+                onSearchBarAction = onSearchBarAction,
+                focusManager = focusManager
             )
         },
         sheetContent = {
@@ -62,13 +62,15 @@ fun AudioListScreen(
     ) {
 
         AudioList(
-            audioList = audioList,
-            onAudioClick = onAudioClick,
-            searchText = searchText,
+            filteredAudioList = filteredAudioList,
+            onAudioClick = {
+                onAudioClick(it)
+                focusManager.clearFocus()
+            },
+            allAudioListIsNotEmpty = allAudioListIsNotEmpty,
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.primary.copy(alpha = 0.3f))
-                //.background(MaterialTheme.colors.surface)
                 .padding(bottom = animatedHeight)
         )
     }
@@ -76,28 +78,25 @@ fun AudioListScreen(
 
 @Composable
 fun AudioList(
-    audioList: List<AudioFile>,
+    filteredAudioList: List<AudioFile>,
     onAudioClick: (AudioFile) -> Unit,
-    searchText: String,
+    allAudioListIsNotEmpty: Boolean,
     modifier: Modifier = Modifier
 ) {
-    if (audioList.isEmpty()) {
-        EmptyAudioListScreen(modifier = Modifier)
-    } else {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = modifier
-        ) {
-            val filteredList = audioList.filter { audio ->
-                audio.displayName.contains(searchText, true) || audio.artist.contains(
-                    searchText, true
-                )
-            }
-            items(filteredList) { audio ->
-                AudioFileItem(
-                    audioFile = audio,
-                    onAudioClick = { onAudioClick(audio) },
-                )
+    when {
+        filteredAudioList.isEmpty() -> EmptyAudioListScreen(EmptyAudioListAttribute.BY_SEARCH)
+        !allAudioListIsNotEmpty -> EmptyAudioListScreen(EmptyAudioListAttribute.ALL)
+        else -> {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = modifier
+            ) {
+                items(filteredAudioList) { audio ->
+                    AudioFileItem(
+                        audioFile = audio,
+                        onAudioClick = { onAudioClick(audio) },
+                    )
+                }
             }
         }
     }
@@ -107,14 +106,14 @@ fun AudioList(
 @Preview
 fun PreviewAudioListScreen() {
     AudioListScreen(
-        audioList = getFakeAudioList(),
+        filteredAudioList = getFakeAudioList(),
         onAudioClick = {},
         currentAudioFile = getFakeAudioFile(),
         isAudioPlaying = false,
         progress = 0f,
         searchText = "",
-        onSearchTextChanged = {},
-        onClearClick = {},
-        onPlayerAction = {}
+        allAudioListIsNotEmpty = true,
+        onPlayerAction = {},
+        onSearchBarAction = {}
     )
 }
