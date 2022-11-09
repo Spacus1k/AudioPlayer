@@ -2,7 +2,6 @@ package com.example.audioplayer.presentation.ui.screens
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -68,6 +67,7 @@ fun AudioListScreen(
                 focusManager.clearFocus()
             },
             allAudioListIsNotEmpty = allAudioListIsNotEmpty,
+            currentPlayingAudioId = currentAudioFile?.id,
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.primary.copy(alpha = 0.3f))
@@ -81,20 +81,19 @@ fun AudioList(
     filteredAudioList: List<AudioFile>,
     onAudioClick: (AudioFile) -> Unit,
     allAudioListIsNotEmpty: Boolean,
+    currentPlayingAudioId: Long?,
     modifier: Modifier = Modifier
 ) {
     when {
         filteredAudioList.isEmpty() -> EmptyAudioListScreen(EmptyAudioListAttribute.BY_SEARCH)
         !allAudioListIsNotEmpty -> EmptyAudioListScreen(EmptyAudioListAttribute.ALL)
         else -> {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = modifier
-            ) {
+            LazyColumn(modifier = modifier) {
                 items(filteredAudioList) { audio ->
                     AudioFileItem(
                         audioFile = audio,
                         onAudioClick = { onAudioClick(audio) },
+                        isPlayingCurrentAudio = audio.id == currentPlayingAudioId
                     )
                 }
             }
