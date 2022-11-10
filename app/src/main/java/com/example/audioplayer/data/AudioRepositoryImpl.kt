@@ -13,6 +13,11 @@ import javax.inject.Inject
 class AudioRepositoryImpl @Inject constructor(@ApplicationContext val context: Context) :
     AudioRepository {
 
+    companion object {
+        const val UNKNOWN_ARTIST_STUB = "<unknown>"
+        const val UNKNOWN_ARTIST = "Unknown Artist"
+    }
+
     private val projection: Array<String> = arrayOf(
         MediaStore.Audio.AudioColumns.DISPLAY_NAME,
         MediaStore.Audio.AudioColumns._ID,
@@ -28,24 +33,6 @@ class AudioRepositoryImpl @Inject constructor(@ApplicationContext val context: C
     private var selectionArg = arrayOf("1")
 
     private val sortOrder = "${MediaStore.Audio.AudioColumns.DISPLAY_NAME} ASC"
-
-    fun executeAsFlow(): MutableStateFlow<List<AudioFileDomain>> {
-
-        val audioCursor = context.contentResolver.query(
-            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-            projection,
-            selectionClause,
-            selectionArg,
-            sortOrder
-        )
-        return MutableStateFlow(
-            if (audioCursor != null && audioCursor.moveToFirst())
-                getAudioList(audioCursor)
-            else {
-                emptyList()
-            }
-        )
-    }
 
     override suspend fun getAudioData(): List<AudioFileDomain> {
         val audioCursor = context.contentResolver.query(
@@ -77,7 +64,7 @@ class AudioRepositoryImpl @Inject constructor(@ApplicationContext val context: C
                 val audioFile = AudioFileDomain(
                     id = getLong(id),
                     title = getString(audioTitle),
-                    artist = getString(audioArtist),
+                    artist = checkUnknownArtist(getString(audioArtist)),
                     location = getString(audioLocation),
                     duration = getFloat(audioDuration),
                     displayName = getString(audioDisplayName)
@@ -89,6 +76,9 @@ class AudioRepositoryImpl @Inject constructor(@ApplicationContext val context: C
         }
         return audioList
     }
+
+    private fun checkUnknownArtist(artist: String) =
+        if (artist.contains(UNKNOWN_ARTIST_STUB)) UNKNOWN_ARTIST else artist
 
     private fun printAudioList(audioList: List<AudioFileDomain>) {
         println("Songs count: ${audioList.size}")
