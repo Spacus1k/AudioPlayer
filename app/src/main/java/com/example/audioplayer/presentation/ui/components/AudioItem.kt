@@ -2,9 +2,13 @@ package com.example.audioplayer.presentation.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.audioplayer.presentation.theme.CyanBlue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,13 +25,13 @@ fun AudioFileItem(
     isPlayingCurrentAudio: Boolean
 ) {
     val itemBackgroundColor = if (isPlayingCurrentAudio) {
-        MaterialTheme.colors.primary.copy(alpha = 0.5f)
+       CyanBlue
     } else {
         MaterialTheme.colors.surface
     }
     Button(
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = itemBackgroundColor,
+            backgroundColor = itemBackgroundColor
         ),
         onClick = { onAudioClick(audioFile.id) }) {
 

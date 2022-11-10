@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 
 private val DarkColorPalette = darkColors(
-        primary = Blue,
+    primary = Blue,
     primaryVariant = CyanAlabaster,
     secondary = DarkSlateGray,
     secondaryVariant = Color.Black,
