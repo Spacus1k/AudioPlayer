@@ -16,6 +16,7 @@ fun MediaPlayerController(
     onNext: () -> Unit,
     onPrevious: () -> Unit,
     onRestart: () -> Unit,
+    progress: Float,
     modifier: Modifier = Modifier,
     backButtonSize: Int = 35,
     nextButtonSize: Int = 35,
@@ -39,7 +40,8 @@ fun MediaPlayerController(
         BackIconItem(
             onRestart = { onRestart() },
             onPrevious = { onPrevious() },
-            buttonSize = backButtonSize
+            buttonSize = backButtonSize,
+            progress = progress
         )
 
         Spacer(modifier = modifier.size(8.dp))
@@ -64,6 +66,7 @@ fun PreviewMediaPlayerController() {
         onStart = {},
         onPrevious = {},
         onNext = {},
-        onRestart = {}
+        onRestart = {},
+        progress = 1f
     )
 }

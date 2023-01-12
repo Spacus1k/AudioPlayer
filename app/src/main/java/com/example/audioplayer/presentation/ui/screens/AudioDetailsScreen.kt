@@ -24,7 +24,9 @@ fun AudioDetailsScreen(
     isAudioPlaying: Boolean,
     onPlayerAction: (MediaPlayerControllerAction) -> Unit
 ) {
-    Scaffold(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Scaffold(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
 
         Column {
             Spacer(modifier = Modifier.size(50.dp))
@@ -52,11 +54,14 @@ fun AudioDetailsScreen(
                 onNext = { onPlayerAction(MediaPlayerControllerAction.OnNext) },
                 onRestart = { onPlayerAction(MediaPlayerControllerAction.OnRestart) },
                 onPrevious = { onPlayerAction(MediaPlayerControllerAction.OnPrevious) },
-                modifier = Modifier.size(15.dp)
+                modifier = Modifier.size(15.dp),
+                progress = progress
             )
             Spacer(modifier = Modifier.size(20.dp))
 
-            AudioSlider(progress = progress, onProgressChange = {})
+            AudioSlider(
+                progress = progress,
+                onProgressChange = { onPlayerAction(MediaPlayerControllerAction.OnProgressChange(it)) })
         }
     }
 }

@@ -1,7 +1,8 @@
 package com.example.audioplayer.presentation.ui.components.controller
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -14,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 fun BackIconItem(
     onRestart: () -> Unit,
     onPrevious: () -> Unit,
+    progress: Float,
     border: BorderStroke? = null,
     buttonSize: Int = 35
 ) {
@@ -30,7 +31,10 @@ fun BackIconItem(
         border = border,
         modifier = Modifier
             .size((buttonSize * 1.5).dp)
-            .clip(CircleShape),
+            .clip(CircleShape)
+            .clickable {
+                if (progress < 5f) onPrevious() else onRestart()
+            },
         contentColor = MaterialTheme.colors.onSurface,
         color = MaterialTheme.colors.secondary.copy(0.1f)
     ) {
@@ -42,12 +46,6 @@ fun BackIconItem(
                 contentDescription = null,
                 modifier = Modifier
                     .size(buttonSize.dp)
-                    .pointerInput(Unit) {
-                        detectTapGestures(
-                            onPress = { onRestart() },
-                            onDoubleTap = { onPrevious() },
-                        )
-                    }
             )
         }
     }
@@ -58,6 +56,7 @@ fun BackIconItem(
 fun PreviewBackIconItem() {
     BackIconItem(
         onRestart = {},
-        onPrevious = {}
+        onPrevious = {},
+        progress = 1f
     )
 }
