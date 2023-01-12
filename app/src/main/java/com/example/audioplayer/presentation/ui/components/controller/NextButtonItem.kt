@@ -1,40 +1,55 @@
-package com.example.audioplayer.presentation.ui.components
+package com.example.audioplayer.presentation.ui.components.controller
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PlayerIconItem(
-    icon: ImageVector,
+fun NextButtonItem(
+    onNext: () -> Unit,
     border: BorderStroke? = null,
-    onClick: () -> Unit,
+    buttonSize: Int = 35
 ) {
     Surface(
         shape = CircleShape,
         border = border,
         modifier = Modifier
+            .size((buttonSize * 1.5).dp)
             .clip(CircleShape)
-            .clickable { onClick() },
+            .clickable { onNext() },
         contentColor = MaterialTheme.colors.onSurface,
-        color = MaterialTheme.colors.surface
+        color = MaterialTheme.colors.secondary.copy(0.1f)
     ) {
         Box(
-            modifier = Modifier.padding(4.dp),
             contentAlignment = Alignment.Center
         ) {
-            Icon(imageVector = icon, contentDescription = null)
+            Icon(
+                imageVector = Icons.Default.SkipNext,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(buttonSize.dp)
+            )
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewNextIconItem() {
+    NextButtonItem(
+        onNext = {}
+    )
 }

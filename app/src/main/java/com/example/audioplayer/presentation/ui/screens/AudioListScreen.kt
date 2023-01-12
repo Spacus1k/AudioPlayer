@@ -14,6 +14,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.audioplayer.presentation.ui.components.*
+import com.example.audioplayer.presentation.ui.components.controller.BottomBarPlayer
+import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerControllerAction
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.utils.getFakeAudioFile
 import com.example.audioplayer.presentation.utils.getFakeAudioList

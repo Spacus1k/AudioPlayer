@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.audioplayer.presentation.ui.AudioViewModel
-import com.example.audioplayer.presentation.ui.components.MediaPlayerControllerAction
+import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerControllerAction
 import com.example.audioplayer.presentation.ui.components.SearchBarAction
 import com.example.audioplayer.presentation.ui.screens.AudioDetailsScreen
 import com.example.audioplayer.presentation.ui.screens.HomeScreen

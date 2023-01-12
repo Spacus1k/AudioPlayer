@@ -1,16 +1,11 @@
-package com.example.audioplayer.presentation.ui.components
+package com.example.audioplayer.presentation.ui.components.controller
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.audioplayer.presentation.ui.model.AudioFile
 
@@ -21,7 +16,10 @@ fun MediaPlayerController(
     onNext: () -> Unit,
     onPrevious: () -> Unit,
     onRestart: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    backButtonSize: Int = 35,
+    nextButtonSize: Int = 35,
+    playButtonSize: Int = 35
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -30,30 +28,23 @@ fun MediaPlayerController(
             .padding(4.dp)
     ) {
 
-        Icon(
-            imageVector = Icons.Default.SkipPrevious,
-            contentDescription = null,
-            modifier = Modifier.pointerInput(Unit) {
-                detectTapGestures(
-                    onPress = { onRestart() },
-                    onDoubleTap = { onPrevious() },
-                )
-            }
-        )
-        Spacer(modifier = modifier.size(8.dp))
-
-        PlayerIconItem(
-            icon = if (isAudioPlaying) Icons.Default.Pause
-            else Icons.Default.PlayArrow,
+        PlayerButtonItem(
+            isAudioPlaying = isAudioPlaying,
             onClick = { onStart() },
+            buttonSize = playButtonSize
         )
+
         Spacer(modifier = modifier.size(8.dp))
 
-        Icon(
-            imageVector = Icons.Default.SkipNext,
-            contentDescription = null,
-            modifier = Modifier.clickable { onNext() }
+        BackIconItem(
+            onRestart = { onRestart() },
+            onPrevious = { onPrevious() },
+            buttonSize = backButtonSize
         )
+
+        Spacer(modifier = modifier.size(8.dp))
+
+        NextButtonItem(onNext = onNext, buttonSize = nextButtonSize)
     }
 }
 

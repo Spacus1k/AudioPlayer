@@ -2,11 +2,9 @@ package com.example.audioplayer.presentation.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import com.example.audioplayer.presentation.ui.AudioViewModel
-import com.example.audioplayer.presentation.ui.components.MediaPlayerControllerAction
 import com.example.audioplayer.presentation.ui.components.SearchBarAction
+import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerControllerAction
 import com.example.audioplayer.presentation.ui.model.AudioFile
-import com.example.audioplayer.presentation.utils.toPresentation
 
 @Composable
 fun HomeScreen(

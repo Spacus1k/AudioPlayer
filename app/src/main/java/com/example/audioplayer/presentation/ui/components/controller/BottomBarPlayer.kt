@@ -1,4 +1,4 @@
-package com.example.audioplayer.presentation.ui.components
+package com.example.audioplayer.presentation.ui.components.controller
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.audioplayer.presentation.ui.components.AudioInfo
+import com.example.audioplayer.presentation.ui.components.AudioSlider
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.utils.getFakeAudioFile
 
@@ -29,16 +31,15 @@ fun BottomBarPlayer(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            AudioInfo(audioFile = audioFile, modifier = Modifier.weight(1f).clickable {
-                onAudioInfoClick(audioFile.displayName)
-            })
+            AudioInfo(audioFile = audioFile, modifier = Modifier
+                .weight(1f)
+                .clickable {
+                    onAudioInfoClick(audioFile.displayName)
+                })
 
-            MediaPlayerController(
+            BottomMediaPlayerController(
                 isAudioPlaying = isAudioPlaying,
-                onStart = { onPlayerAction(MediaPlayerControllerAction.OnStart(audioFile)) },
-                onNext = { onPlayerAction(MediaPlayerControllerAction.OnNext) },
-                onRestart = { onPlayerAction(MediaPlayerControllerAction.OnRestart) },
-                onPrevious = { onPlayerAction(MediaPlayerControllerAction.OnPrevious) },
+                onStart = { onPlayerAction(MediaPlayerControllerAction.OnStart(audioFile)) }
             )
         }
         AudioSlider(

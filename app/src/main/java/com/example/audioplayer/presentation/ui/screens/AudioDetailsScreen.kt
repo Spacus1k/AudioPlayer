@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 import com.example.audioplayer.R
 import com.example.audioplayer.presentation.ui.components.AudioInfo
 import com.example.audioplayer.presentation.ui.components.AudioSlider
-import com.example.audioplayer.presentation.ui.components.MediaPlayerController
-import com.example.audioplayer.presentation.ui.components.MediaPlayerControllerAction
+import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerController
+import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerControllerAction
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.utils.getFakeAudioFile
 
@@ -24,24 +24,27 @@ fun AudioDetailsScreen(
     isAudioPlaying: Boolean,
     onPlayerAction: (MediaPlayerControllerAction) -> Unit
 ) {
-    Scaffold(modifier = Modifier.fillMaxSize()) {
+    Scaffold(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Column {
             Spacer(modifier = Modifier.size(50.dp))
-            Image(
-                painter = painterResource(id = R.drawable.ic_baseline_music_note_24),
-                contentDescription = "Song cover",
-                modifier = Modifier
-                    .height(200.dp)
-                    .width(200.dp)
-            )
 
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+
+                Image(
+                    painter = painterResource(id = R.drawable.ic_baseline_music_note_24),
+                    contentDescription = "Song cover",
+                    modifier = Modifier
+                        .height(200.dp)
+                        .width(500.dp)
+                )
+            }
+            Spacer(modifier = Modifier.size(20.dp))
             AudioInfo(audioFile = playingAudioFile)
-
-            AudioSlider(progress = progress, onProgressChange = {})
+            Spacer(modifier = Modifier.size(20.dp))
 
             MediaPlayerController(
                 isAudioPlaying = isAudioPlaying,
@@ -49,8 +52,11 @@ fun AudioDetailsScreen(
                 onNext = { onPlayerAction(MediaPlayerControllerAction.OnNext) },
                 onRestart = { onPlayerAction(MediaPlayerControllerAction.OnRestart) },
                 onPrevious = { onPlayerAction(MediaPlayerControllerAction.OnPrevious) },
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(15.dp)
             )
+            Spacer(modifier = Modifier.size(20.dp))
+
+            AudioSlider(progress = progress, onProgressChange = {})
         }
     }
 }
@@ -63,5 +69,5 @@ fun AudioDetailsPreview() {
         playingAudioFile = getFakeAudioFile(),
         progress = 1f,
         onPlayerAction = {}
-        )
+    )
 }
