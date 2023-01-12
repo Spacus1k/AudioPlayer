@@ -29,7 +29,8 @@ fun AudioListScreen(
     searchText: String,
     allAudioListIsNotEmpty: Boolean,
     onSearchBarAction: (SearchBarAction) -> Unit,
-    onPlayerAction: (BottomPlayerAction) -> Unit,
+    onPlayerAction: (MediaPlayerControllerAction) -> Unit,
+    onAudioInfoClick: (String) -> Unit,
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
     val animatedHeight by animateDpAsState(
@@ -52,7 +53,8 @@ fun AudioListScreen(
                     progress = progress,
                     audioFile = audio,
                     isAudioPlaying = isAudioPlaying,
-                    onPlayerAction = onPlayerAction
+                    onPlayerAction = onPlayerAction,
+                    onAudioInfoClick = onAudioInfoClick
                 )
             }
         },
@@ -113,6 +115,7 @@ fun PreviewAudioListScreen() {
         searchText = "",
         allAudioListIsNotEmpty = true,
         onPlayerAction = {},
-        onSearchBarAction = {}
+        onSearchBarAction = {},
+        onAudioInfoClick = {}
     )
 }

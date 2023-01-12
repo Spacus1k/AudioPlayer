@@ -5,7 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.audioplayer.presentation.theme.AudioPlayerTheme
 import com.example.audioplayer.presentation.ui.AudioViewModel
 import com.example.audioplayer.presentation.ui.screens.HomeScreen
@@ -20,9 +26,15 @@ class MainActivity : ComponentActivity() {
         registerForActivityResult(RequestMultiplePermissions()) { permissionsStatusMap ->
             setContent {
                 AudioPlayerTheme {
-                    Surface{
+                    val navController = rememberNavController()
+
+                    Surface {
                         if (!permissionsStatusMap.containsValue(false)) {
-                            HomeScreen(viewModel = viewModel(modelClass = AudioViewModel::class.java))
+                            AudioNavHost(
+                                navController = navController,
+                                modifier = Modifier,
+                                audioViewModel = viewModel(modelClass = AudioViewModel::class.java)
+                            )
                         } else {
                             WithoutPermissionScreen()
                         }
@@ -36,3 +48,4 @@ class MainActivity : ComponentActivity() {
         multiplePermissionContract.launch(PermissionManager.PERMISSIONS)
     }
 }
+

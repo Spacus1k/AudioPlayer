@@ -1,20 +1,12 @@
 package com.example.audioplayer.presentation.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsDraggedAsState
-import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Slider
-import androidx.compose.material.Text
-import androidx.compose.material.SliderDefaults
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.audioplayer.presentation.ui.model.AudioFile
@@ -25,7 +17,8 @@ fun BottomBarPlayer(
     progress: Float,
     audioFile: AudioFile,
     isAudioPlaying: Boolean,
-    onPlayerAction: (BottomPlayerAction) -> Unit,
+    onPlayerAction: (MediaPlayerControllerAction) -> Unit,
+    onAudioInfoClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.background(MaterialTheme.colors.primary)) {
@@ -36,90 +29,22 @@ fun BottomBarPlayer(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            AudioInfo(audioFile = audioFile, modifier = Modifier.weight(1f))
+            AudioInfo(audioFile = audioFile, modifier = Modifier.weight(1f).clickable {
+                onAudioInfoClick(audioFile.displayName)
+            })
 
             MediaPlayerController(
                 isAudioPlaying = isAudioPlaying,
-                onStart = { onPlayerAction(BottomPlayerAction.OnStart(audioFile)) },
-                onNext = { onPlayerAction(BottomPlayerAction.OnNext) },
-                onRestart = { onPlayerAction(BottomPlayerAction.OnRestart) },
-                onPrevious = { onPlayerAction(BottomPlayerAction.OnPrevious) },
+                onStart = { onPlayerAction(MediaPlayerControllerAction.OnStart(audioFile)) },
+                onNext = { onPlayerAction(MediaPlayerControllerAction.OnNext) },
+                onRestart = { onPlayerAction(MediaPlayerControllerAction.OnRestart) },
+                onPrevious = { onPlayerAction(MediaPlayerControllerAction.OnPrevious) },
             )
         }
         AudioSlider(
             progress = progress,
-            onProgressChange = { onPlayerAction(BottomPlayerAction.OnProgressChange(it)) }
+            onProgressChange = { onPlayerAction(MediaPlayerControllerAction.OnProgressChange(it)) }
         )
-    }
-}
-
-@Composable
-fun AudioSlider(
-    progress: Float,
-    onProgressChange: (Float) -> Unit,
-    range: ClosedFloatingPointRange<Float> = 0f..100f
-) {
-    var localSliderValue by remember {
-        mutableStateOf(progress)
-    }
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val isDragged by interactionSource.collectIsDraggedAsState()
-    val isInteracting = isPressed || isDragged
-
-    val sliderValue by derivedStateOf {
-        if (isInteracting) {
-            localSliderValue
-        } else {
-            progress
-        }
-    }
-
-    Slider(
-        valueRange = range,
-        value = sliderValue,
-        onValueChange = {
-            localSliderValue = it
-        },
-        colors = SliderDefaults.colors(
-            thumbColor = MaterialTheme.colors.primaryVariant,
-            activeTrackColor = MaterialTheme.colors.primaryVariant,
-            inactiveTrackColor = Color.Black.copy(alpha = 0.1f)
-        ),
-        interactionSource = interactionSource,
-        onValueChangeFinished = {
-            onProgressChange(sliderValue)
-        }
-    )
-}
-
-@Composable
-fun AudioInfo(audioFile: AudioFile, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier.padding(4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-
-        Spacer(modifier = Modifier.size(4.dp))
-
-        Column {
-            Text(
-                text = audioFile.title,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.h6,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(modifier = Modifier.size(4.dp))
-
-            Text(
-                text = audioFile.artist,
-                fontWeight = FontWeight.Normal,
-                style = MaterialTheme.typography.subtitle1,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
-            )
-        }
     }
 }
 
@@ -130,14 +55,8 @@ fun PreviewBottomBarPlayer() {
         progress = 100f,
         audioFile = getFakeAudioFile(),
         isAudioPlaying = true,
-        onPlayerAction = {}
+        onPlayerAction = {},
+        onAudioInfoClick = {}
     )
 }
 
-sealed class BottomPlayerAction {
-    object OnNext : BottomPlayerAction()
-    object OnPrevious : BottomPlayerAction()
-    object OnRestart : BottomPlayerAction()
-    class OnStart(val audioFile: AudioFile) : BottomPlayerAction()
-    class OnProgressChange(val value: Float) : BottomPlayerAction()
-}

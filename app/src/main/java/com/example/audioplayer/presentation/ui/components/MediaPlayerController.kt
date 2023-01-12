@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.audioplayer.presentation.ui.model.AudioFile
 
 @Composable
 fun MediaPlayerController(
@@ -20,6 +21,7 @@ fun MediaPlayerController(
     onNext: () -> Unit,
     onPrevious: () -> Unit,
     onRestart: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -38,14 +40,14 @@ fun MediaPlayerController(
                 )
             }
         )
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacer(modifier = modifier.size(8.dp))
 
         PlayerIconItem(
             icon = if (isAudioPlaying) Icons.Default.Pause
             else Icons.Default.PlayArrow,
             onClick = { onStart() },
         )
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacer(modifier = modifier.size(8.dp))
 
         Icon(
             imageVector = Icons.Default.SkipNext,
@@ -53,6 +55,14 @@ fun MediaPlayerController(
             modifier = Modifier.clickable { onNext() }
         )
     }
+}
+
+sealed class MediaPlayerControllerAction {
+    object OnNext : MediaPlayerControllerAction()
+    object OnPrevious : MediaPlayerControllerAction()
+    object OnRestart : MediaPlayerControllerAction()
+    class OnStart(val audioFile: AudioFile) : MediaPlayerControllerAction()
+    class OnProgressChange(val value: Float) : MediaPlayerControllerAction()
 }
 
 @Preview
