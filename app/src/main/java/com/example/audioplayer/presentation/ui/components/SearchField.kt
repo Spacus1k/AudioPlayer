@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.audioplayer.R
+import com.example.audioplayer.presentation.ui.base.clearFocusOnKeyboardDismiss
 
 @Composable
 fun TopBarWithSearch(
@@ -125,6 +126,7 @@ fun ExpandedSearchBar(
                 onValueChange = { onSearchBarAction(SearchBarAction.OnSearchTextChanged(it)) },
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clearFocusOnKeyboardDismiss()
                     .focusRequester(focusRequester)
                     .onFocusChanged { focusState ->
                         showClearButton = focusState.isFocused
