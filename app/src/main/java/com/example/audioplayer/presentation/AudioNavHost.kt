@@ -1,33 +1,45 @@
 package com.example.audioplayer.presentation
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.example.audioplayer.presentation.ui.AudioViewModel
-import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerControllerAction
 import com.example.audioplayer.presentation.ui.components.SearchBarAction
+import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerControllerAction
+import com.example.audioplayer.presentation.ui.screens.AnimatedSplashScreen
 import com.example.audioplayer.presentation.ui.screens.AudioDetailsScreen
 import com.example.audioplayer.presentation.ui.screens.HomeScreen
 import com.example.audioplayer.presentation.utils.getFakeAudioFile
 import com.example.audioplayer.presentation.utils.toPresentation
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AudioNavHost(
     navController: NavHostController,
     audioViewModel: AudioViewModel,
     modifier: Modifier = Modifier
 ) {
-    NavHost(
+    AnimatedNavHost(
         navController = navController,
         startDestination = SplashScreen.route,
         modifier = modifier
     ) {
-        composable(route = SplashScreen.route){
+        composable(route = SplashScreen.route) {
             AnimatedSplashScreen(navController)
         }
+        val springSpec = spring<IntOffset>(dampingRatio = Spring.DampingRatioMediumBouncy)
+        val tweenSpec = tween<IntOffset>(
+            durationMillis = 2000,
+            //easing = CubicBezierEasing(0.18f, 0.93f, 0.68f, 1f)
+        )
 
         composable(route = AudioList.route) {
             ConfigureHomeScreen(navController = navController, viewModel = audioViewModel)
@@ -35,7 +47,13 @@ fun AudioNavHost(
 
         composable(
             route = AudioDetails.routeWithArgs,
-            arguments = AudioDetails.arguments
+            arguments = AudioDetails.arguments,
+            enterTransition = {
+                slideInVertically(initialOffsetY = { 2000 }, animationSpec = tweenSpec)
+            },
+            exitTransition = {
+                slideOutVertically(targetOffsetY = { 2000 }, animationSpec = tweenSpec)
+            }
         ) {
             ConfigureAudioDetailsScreen(audioViewModel)
         }

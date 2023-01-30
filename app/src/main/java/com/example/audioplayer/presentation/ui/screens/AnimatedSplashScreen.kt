@@ -1,4 +1,4 @@
-package com.example.audioplayer.presentation
+package com.example.audioplayer.presentation.ui.screens
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.animateFloatAsState
@@ -22,18 +22,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.audioplayer.R
 import kotlinx.coroutines.delay
+import com.example.audioplayer.presentation.AudioList
 
 @Composable
 fun AnimatedSplashScreen(navController: NavHostController) {
     var startAnimation by remember { mutableStateOf(false) }
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
-        animationSpec = tween(durationMillis = 3000)
+        animationSpec = tween(durationMillis = 1000)
     )
 
     LaunchedEffect(key1 = true) {
         startAnimation = true
-        delay(4000)
+        delay(2000)
         navController.popBackStack()
         navController.navigate(AudioList.route)
     }
