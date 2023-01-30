@@ -10,6 +10,10 @@ object AudioList: AudioDestination {
     override val route: String = "audio_list"
 }
 
+object SplashScreen: AudioDestination {
+    override val route: String = "splash_screen"
+}
+
 object AudioDetails: AudioDestination {
     override val route: String = "audio_details"
     private const val audioFileArg = "audio_file"

@@ -22,11 +22,14 @@ fun AudioNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AudioList.route,
+        startDestination = SplashScreen.route,
         modifier = modifier
     ) {
-        composable(route = AudioList.route) {
+        composable(route = SplashScreen.route){
+            AnimatedSplashScreen(navController)
+        }
 
+        composable(route = AudioList.route) {
             ConfigureHomeScreen(navController = navController, viewModel = audioViewModel)
         }
 
