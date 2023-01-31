@@ -1,8 +1,6 @@
 package com.example.audioplayer.presentation
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,10 +33,8 @@ fun AudioNavHost(
         composable(route = SplashScreen.route) {
             AnimatedSplashScreen(navController)
         }
-        val springSpec = spring<IntOffset>(dampingRatio = Spring.DampingRatioMediumBouncy)
         val tweenSpec = tween<IntOffset>(
             durationMillis = 2000,
-            //easing = CubicBezierEasing(0.18f, 0.93f, 0.68f, 1f)
         )
 
         composable(route = AudioList.route) {
@@ -110,6 +106,7 @@ fun ConfigureAudioDetailsScreen(
         onPlayerAction = { action ->
             configurePlayerAction(action, audioViewModel)
         },
+        progressInSec = audioViewModel.currentAudioProgressInSec.value
     )
 }
 

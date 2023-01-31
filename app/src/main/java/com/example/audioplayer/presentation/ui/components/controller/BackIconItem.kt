@@ -1,6 +1,5 @@
 package com.example.audioplayer.presentation.ui.components.controller
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -22,7 +21,7 @@ import androidx.compose.ui.unit.dp
 fun BackIconItem(
     onRestart: () -> Unit,
     onPrevious: () -> Unit,
-    progress: Float,
+    progressInSec: Int,
     border: BorderStroke? = null,
     buttonSize: Int = 35
 ) {
@@ -33,7 +32,7 @@ fun BackIconItem(
             .size((buttonSize * 1.5).dp)
             .clip(CircleShape)
             .clickable {
-                if (progress < 5f) onPrevious() else onRestart()
+                if (progressInSec < 6) onPrevious() else onRestart()
             },
         contentColor = MaterialTheme.colors.onSurface,
         color = MaterialTheme.colors.secondary.copy(0.1f)
@@ -57,6 +56,6 @@ fun PreviewBackIconItem() {
     BackIconItem(
         onRestart = {},
         onPrevious = {},
-        progress = 1f
+        progressInSec = 4
     )
 }

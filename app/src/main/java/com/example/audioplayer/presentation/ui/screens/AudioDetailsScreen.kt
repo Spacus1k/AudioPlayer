@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.audioplayer.R
 import com.example.audioplayer.presentation.ui.components.AudioInfo
-import com.example.audioplayer.presentation.ui.components.AudioSlider
+import com.example.audioplayer.presentation.ui.components.AudioSliderWithTime
 import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerController
 import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerControllerAction
 import com.example.audioplayer.presentation.ui.model.AudioFile
@@ -21,6 +21,7 @@ import com.example.audioplayer.presentation.utils.getFakeAudioFile
 fun AudioDetailsScreen(
     playingAudioFile: AudioFile,
     progress: Float,
+    progressInSec: Int,
     isAudioPlaying: Boolean,
     onPlayerAction: (MediaPlayerControllerAction) -> Unit
 ) {
@@ -55,12 +56,13 @@ fun AudioDetailsScreen(
                 onRestart = { onPlayerAction(MediaPlayerControllerAction.OnRestart) },
                 onPrevious = { onPlayerAction(MediaPlayerControllerAction.OnPrevious) },
                 modifier = Modifier.size(15.dp),
-                progress = progress
+                progressInSec = progressInSec
             )
             Spacer(modifier = Modifier.size(20.dp))
 
-            AudioSlider(
+            AudioSliderWithTime(
                 progress = progress,
+                duration = playingAudioFile.duration,
                 onProgressChange = { onPlayerAction(MediaPlayerControllerAction.OnProgressChange(it)) })
         }
     }
@@ -73,6 +75,7 @@ fun AudioDetailsPreview() {
         isAudioPlaying = false,
         playingAudioFile = getFakeAudioFile(),
         progress = 1f,
-        onPlayerAction = {}
+        onPlayerAction = {},
+        progressInSec = 1
     )
 }

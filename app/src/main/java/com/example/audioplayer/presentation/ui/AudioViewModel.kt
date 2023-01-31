@@ -4,11 +4,7 @@ import android.support.v4.media.MediaBrowserCompat
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.audioplayer.domain.media.Constants
-import com.example.audioplayer.domain.media.MediaPlayerService
-import com.example.audioplayer.domain.media.MediaPlayerServiceConnection
-import com.example.audioplayer.domain.media.currentPosition
-import com.example.audioplayer.domain.media.isPlaying
+import com.example.audioplayer.domain.media.*
 import com.example.audioplayer.domain.usecases.GetAudioListUseCase
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.utils.toDomain
@@ -56,6 +52,7 @@ class AudioViewModel @Inject constructor(
         get() = MediaPlayerService.currentDuration
 
     var currentAudioProgress = mutableStateOf(0f)
+    var currentAudioProgressInSec = mutableStateOf(0)
 
     init {
         viewModelScope.launch {
@@ -152,6 +149,8 @@ class AudioViewModel @Inject constructor(
             if (currentDuration > 0) {
                 currentAudioProgress.value =
                     (currentPlayBackPosition.toFloat() / currentDuration.toFloat() * 100f)
+
+                currentAudioProgressInSec.value =  (currentAudioProgress.value* currentDuration /100000).toInt()
             }
 
             delay(Constants.PLAYBACK_UPDATE_INTERVAL)

@@ -29,12 +29,14 @@ fun AnimatedSplashScreen(navController: NavHostController) {
     var startAnimation by remember { mutableStateOf(false) }
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
-        animationSpec = tween(durationMillis = 1000)
+        // change for 1000
+        animationSpec = tween(durationMillis = 0)
     )
 
     LaunchedEffect(key1 = true) {
         startAnimation = true
-        delay(2000)
+        // change for 2000
+        delay(0)
         navController.popBackStack()
         navController.navigate(AudioList.route)
     }

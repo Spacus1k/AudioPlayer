@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.audioplayer.presentation.ui.model.AudioFile
 
@@ -16,7 +15,7 @@ fun MediaPlayerController(
     onNext: () -> Unit,
     onPrevious: () -> Unit,
     onRestart: () -> Unit,
-    progress: Float,
+    progressInSec: Int,
     modifier: Modifier = Modifier,
     backButtonSize: Int = 35,
     nextButtonSize: Int = 35,
@@ -41,7 +40,7 @@ fun MediaPlayerController(
             onRestart = { onRestart() },
             onPrevious = { onPrevious() },
             buttonSize = backButtonSize,
-            progress = progress
+            progressInSec = progressInSec
         )
 
         Spacer(modifier = modifier.size(8.dp))
@@ -67,6 +66,6 @@ fun PreviewMediaPlayerController() {
         onPrevious = {},
         onNext = {},
         onRestart = {},
-        progress = 1f
+        progressInSec = 1
     )
 }
