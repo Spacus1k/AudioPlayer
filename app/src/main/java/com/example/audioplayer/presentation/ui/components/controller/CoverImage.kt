@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.audioplayer.R
 import com.example.audioplayer.presentation.utils.loadPicture
@@ -24,16 +22,11 @@ fun CoverImage(
         .height(360.dp)
         .fillMaxWidth()
 ) {
-    when (val image = loadPicture(uri = uri).value) {
-        null -> Image(
-            painter = painterResource(id = defaultCover),
+    val image = loadPicture(uri = uri,defaultCover  ).value
+    image?.let { img ->
+        Image(
+            bitmap = img.asImageBitmap(),
             contentDescription = "Song cover",
-            modifier = modifier
-        )
-        else -> Image(
-            bitmap = image.asImageBitmap(),
-            contentDescription = "Song cover",
-            contentScale = ContentScale.Crop,
             modifier = modifier
         )
     }
