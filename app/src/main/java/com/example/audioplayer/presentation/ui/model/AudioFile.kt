@@ -1,5 +1,7 @@
 package com.example.audioplayer.presentation.ui.model
 
+import android.net.Uri
+
 data class AudioFile(
     val id: Long,
     val title: String,
@@ -7,6 +9,7 @@ data class AudioFile(
     val location: String,
     val displayName: String,
     val duration: Float,
+    val coverUri: Uri
 ) {
     override fun equals(other: Any?): Boolean =
         other is AudioFile && title == other.title && artist == other.artist

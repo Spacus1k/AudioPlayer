@@ -1,5 +1,6 @@
 package com.example.audioplayer.presentation.utils
 
+import android.net.Uri
 import com.example.audioplayer.presentation.ui.model.AudioFile
 
 fun getFakeAudioList(): List<AudioFile> {
@@ -16,5 +17,6 @@ fun getFakeAudioFile() = AudioFile(
     artist = "КИНО",
     "D",
     displayName = "Пачка сигарет",
-    0f
+    0f,
+    coverUri =  Uri.EMPTY
 )

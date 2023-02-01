@@ -10,6 +10,7 @@ fun AudioFile.toDomain() = AudioFileDomain(
     duration = duration,
     displayName = displayName,
     location = location,
+    coverUri = coverUri
 )
 
 fun AudioFileDomain.toPresentation() = AudioFile(
@@ -19,6 +20,7 @@ fun AudioFileDomain.toPresentation() = AudioFile(
     duration = duration,
     displayName = displayName,
     location = location,
+    coverUri = coverUri
 )
 
 fun List<AudioFileDomain>.toPresentation() = map { audio -> audio.toPresentation() }

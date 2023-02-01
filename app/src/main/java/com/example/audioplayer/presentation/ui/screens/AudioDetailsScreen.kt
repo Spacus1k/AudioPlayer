@@ -1,17 +1,15 @@
 package com.example.audioplayer.presentation.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.audioplayer.R
 import com.example.audioplayer.presentation.ui.components.AudioInfo
 import com.example.audioplayer.presentation.ui.components.AudioSliderWithTime
+import com.example.audioplayer.presentation.ui.components.controller.CoverImage
 import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerController
 import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerControllerAction
 import com.example.audioplayer.presentation.ui.model.AudioFile
@@ -25,26 +23,18 @@ fun AudioDetailsScreen(
     isAudioPlaying: Boolean,
     onPlayerAction: (MediaPlayerControllerAction) -> Unit
 ) {
-    Scaffold(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+    ) {
 
         Column {
-            Spacer(modifier = Modifier.size(50.dp))
-
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-
-                Image(
-                    painter = painterResource(id = R.drawable.ic_baseline_music_note_24),
-                    contentDescription = "Song cover",
-                    modifier = Modifier
-                        .height(200.dp)
-                        .width(500.dp)
-                )
+                CoverImage(uri = playingAudioFile.coverUri)
             }
+
             Spacer(modifier = Modifier.size(20.dp))
             AudioInfo(audioFile = playingAudioFile)
             Spacer(modifier = Modifier.size(20.dp))
@@ -76,6 +66,6 @@ fun AudioDetailsPreview() {
         playingAudioFile = getFakeAudioFile(),
         progress = 1f,
         onPlayerAction = {},
-        progressInSec = 1
+        progressInSec = 1,
     )
 }
