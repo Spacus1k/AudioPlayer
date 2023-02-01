@@ -9,12 +9,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.utils.getFakeAudioFile
 
 @Composable
-fun AudioInfo(audioFile: AudioFile, modifier: Modifier = Modifier) {
+fun AudioInfo(
+    audioFile: AudioFile,
+    modifier: Modifier = Modifier,
+    titleTextSize: TextUnit = 16.sp,
+    artistTextSize: TextUnit = 15.sp
+) {
     Row(
         modifier = modifier.padding(4.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -25,16 +32,18 @@ fun AudioInfo(audioFile: AudioFile, modifier: Modifier = Modifier) {
         Column {
             Text(
                 text = audioFile.title,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
+                fontSize = titleTextSize,
                 style = MaterialTheme.typography.h6,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.size(4.dp))
 
             Text(
                 text = audioFile.artist,
                 fontWeight = FontWeight.Normal,
+                fontSize = artistTextSize,
+                color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.4f),
                 style = MaterialTheme.typography.subtitle1,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
@@ -45,6 +54,6 @@ fun AudioInfo(audioFile: AudioFile, modifier: Modifier = Modifier) {
 
 @Composable
 @Preview
-fun PreviewAudioInfo(){
+fun PreviewAudioInfo() {
     AudioInfo(getFakeAudioFile())
 }

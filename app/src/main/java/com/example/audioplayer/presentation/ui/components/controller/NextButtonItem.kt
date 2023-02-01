@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -21,7 +22,9 @@ import androidx.compose.ui.unit.dp
 fun NextButtonItem(
     onNext: () -> Unit,
     border: BorderStroke? = null,
-    buttonSize: Int = 35
+    buttonSize: Int = 35,
+    contentColor: Color = MaterialTheme.colors.onSurface,
+    backgroundColor: Color = MaterialTheme.colors.secondary.copy(0.1f)
 ) {
     Surface(
         shape = CircleShape,
@@ -30,8 +33,8 @@ fun NextButtonItem(
             .size((buttonSize * 1.5).dp)
             .clip(CircleShape)
             .clickable { onNext() },
-        contentColor = MaterialTheme.colors.onSurface,
-        color = MaterialTheme.colors.secondary.copy(0.1f)
+        contentColor = contentColor,
+        color = backgroundColor
     ) {
         Box(
             contentAlignment = Alignment.Center

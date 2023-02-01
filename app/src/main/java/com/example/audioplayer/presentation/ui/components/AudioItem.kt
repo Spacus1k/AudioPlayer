@@ -1,20 +1,20 @@
 package com.example.audioplayer.presentation.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.audioplayer.presentation.theme.CyanBlue
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.audioplayer.R
+import com.example.audioplayer.presentation.theme.CyanBlue
+import com.example.audioplayer.presentation.ui.components.controller.CoverImage
 import com.example.audioplayer.presentation.ui.model.AudioFile
 import com.example.audioplayer.presentation.utils.getFakeAudioFile
 
@@ -36,11 +36,10 @@ fun AudioFileItem(
         onClick = { onAudioClick(audioFile.id) }) {
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_baseline_music_note_24),
-                contentDescription = "Song cover",
-                modifier = Modifier
+            CoverImage(
+                uri = audioFile.coverUri, modifier = Modifier
                     .size(50.dp)
+                    .clip(RoundedCornerShape(5.dp))
             )
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(

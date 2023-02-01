@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -23,7 +24,9 @@ fun BackIconItem(
     onPrevious: () -> Unit,
     progressInSec: Int,
     border: BorderStroke? = null,
-    buttonSize: Int = 35
+    buttonSize: Int = 35,
+    contentColor: Color = MaterialTheme.colors.onSurface,
+    backgroundColor: Color = MaterialTheme.colors.secondary.copy(0.1f)
 ) {
     Surface(
         shape = CircleShape,
@@ -34,8 +37,9 @@ fun BackIconItem(
             .clickable {
                 if (progressInSec < 6) onPrevious() else onRestart()
             },
-        contentColor = MaterialTheme.colors.onSurface,
-        color = MaterialTheme.colors.secondary.copy(0.1f)
+        contentColor = contentColor,
+        color = backgroundColor
+
     ) {
         Box(
             contentAlignment = Alignment.Center

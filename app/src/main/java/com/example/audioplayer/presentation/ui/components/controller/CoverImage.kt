@@ -24,7 +24,6 @@ fun CoverImage(
         .height(360.dp)
         .fillMaxWidth()
 ) {
-
     when (val image = loadPicture(uri = uri).value) {
         null -> Image(
             painter = painterResource(id = defaultCover),

@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -23,7 +24,9 @@ fun PlayerButtonItem(
     isAudioPlaying: Boolean,
     onClick: () -> Unit,
     border: BorderStroke? = null,
-    buttonSize: Int = 35
+    buttonSize: Int = 35,
+    contentColor: Color = MaterialTheme.colors.onSurface,
+    backgroundColor: Color = MaterialTheme.colors.primary
 ) {
     Surface(
         shape = CircleShape,
@@ -32,8 +35,8 @@ fun PlayerButtonItem(
             .size((buttonSize * 1.5).dp)
             .clip(CircleShape)
             .clickable { onClick() },
-        contentColor = MaterialTheme.colors.onSurface,
-        color = MaterialTheme.colors.primary
+        contentColor = contentColor,
+        color = backgroundColor
     ) {
         Box(contentAlignment = Alignment.Center) {
             Icon(
