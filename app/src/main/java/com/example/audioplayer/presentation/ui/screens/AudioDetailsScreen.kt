@@ -7,8 +7,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.audioplayer.presentation.ui.components.AudioInfo
 import com.example.audioplayer.presentation.ui.components.AudioSliderWithTime
+import com.example.audioplayer.presentation.ui.components.DetailsAudioInfo
 import com.example.audioplayer.presentation.ui.components.controller.CoverImage
 import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerController
 import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerControllerAction
@@ -35,9 +35,13 @@ fun AudioDetailsScreen(
                 CoverImage(uri = playingAudioFile.coverUri)
             }
 
-            Spacer(modifier = Modifier.size(20.dp))
-            AudioInfo(audioFile = playingAudioFile)
-            Spacer(modifier = Modifier.size(20.dp))
+            Spacer(modifier = Modifier.size(5.dp))
+            DetailsAudioInfo(audioFile = playingAudioFile)
+
+            AudioSliderWithTime(
+                progress = progress,
+                duration = playingAudioFile.duration,
+                onProgressChange = { onPlayerAction(MediaPlayerControllerAction.OnProgressChange(it)) })
 
             MediaPlayerController(
                 isAudioPlaying = isAudioPlaying,
@@ -48,12 +52,6 @@ fun AudioDetailsScreen(
                 modifier = Modifier.size(15.dp),
                 progressInSec = progressInSec
             )
-            Spacer(modifier = Modifier.size(20.dp))
-
-            AudioSliderWithTime(
-                progress = progress,
-                duration = playingAudioFile.duration,
-                onProgressChange = { onPlayerAction(MediaPlayerControllerAction.OnProgressChange(it)) })
         }
     }
 }
