@@ -19,33 +19,41 @@ fun MediaPlayerController(
     modifier: Modifier = Modifier,
     backButtonSize: Int = 35,
     nextButtonSize: Int = 35,
-    playButtonSize: Int = 35
+    playButtonSize: Int = 45
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
         modifier = Modifier
-            .height(64.dp)
+            .fillMaxWidth()
+            .height(80.dp)
             .padding(4.dp)
     ) {
-
-        PlayerButtonItem(
-            isAudioPlaying = isAudioPlaying,
-            onClick = { onStart() },
-            buttonSize = playButtonSize
-        )
-
-        Spacer(modifier = modifier.size(8.dp))
 
         BackIconItem(
             onRestart = { onRestart() },
             onPrevious = { onPrevious() },
             buttonSize = backButtonSize,
-            progressInSec = progressInSec
+            progressInSec = progressInSec,
+            transparencyBackground = 0f
         )
 
-        Spacer(modifier = modifier.size(8.dp))
+        Spacer(modifier = modifier.size(30.dp))
 
-        NextButtonItem(onNext = onNext, buttonSize = nextButtonSize)
+        PlayerButtonItem(
+            isAudioPlaying = isAudioPlaying,
+            onClick = { onStart() },
+            buttonSize = playButtonSize,
+            transparencyBackground = 1f
+        )
+
+        Spacer(modifier = modifier.size(30.dp))
+
+        NextButtonItem(
+            onNext = onNext,
+            buttonSize = nextButtonSize,
+            transparencyBackground = 0f
+        )
     }
 }
 

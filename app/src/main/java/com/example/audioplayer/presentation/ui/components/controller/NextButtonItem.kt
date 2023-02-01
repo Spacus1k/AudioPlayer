@@ -24,7 +24,8 @@ fun NextButtonItem(
     border: BorderStroke? = null,
     buttonSize: Int = 35,
     contentColor: Color = MaterialTheme.colors.onSurface,
-    backgroundColor: Color = MaterialTheme.colors.secondary.copy(0.1f)
+    backgroundColor: Color = MaterialTheme.colors.secondary.copy(0.1f),
+    transparencyBackground: Float = 1f
 ) {
     Surface(
         shape = CircleShape,
@@ -34,7 +35,7 @@ fun NextButtonItem(
             .clip(CircleShape)
             .clickable { onNext() },
         contentColor = contentColor,
-        color = backgroundColor
+        color = backgroundColor.copy(alpha = transparencyBackground)
     ) {
         Box(
             contentAlignment = Alignment.Center
