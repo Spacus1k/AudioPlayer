@@ -2,7 +2,7 @@ package com.example.audioplayer.presentation
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -51,7 +51,7 @@ fun AudioNavHost(
                 slideOutVertically(targetOffsetY = { 2000 }, animationSpec = tweenSpec)
             }
         ) {
-            ConfigureAudioDetailsScreen(audioViewModel)
+            ConfigureAudioDetailsScreen(audioViewModel, navController)
         }
     }
 }
@@ -97,6 +97,7 @@ fun configurePlayerAction(action: MediaPlayerControllerAction, viewModel: AudioV
 @Composable
 fun ConfigureAudioDetailsScreen(
     audioViewModel: AudioViewModel,
+    navController: NavHostController
 ) {
     AudioDetailsScreen(
         playingAudioFile = audioViewModel.currentPlayingAudio.value?.toPresentation()
@@ -106,7 +107,8 @@ fun ConfigureAudioDetailsScreen(
         onPlayerAction = { action ->
             configurePlayerAction(action, audioViewModel)
         },
-        progressInSec = audioViewModel.currentAudioProgressInSec.value
+        progressInSec = audioViewModel.currentAudioProgressInSec.value,
+        onBackPress = { navController.popBackStack() }
     )
 }
 

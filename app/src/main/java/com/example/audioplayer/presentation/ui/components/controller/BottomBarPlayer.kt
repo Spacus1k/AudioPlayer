@@ -30,7 +30,10 @@ fun BottomBarPlayer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .padding(start = 16.dp),
+                .padding(start = 16.dp)
+                .clickable {
+                    onAudioInfoClick(audioFile.displayName)
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -39,16 +42,15 @@ fun BottomBarPlayer(
                     .size(50.dp)
                     .clip(RoundedCornerShape(5.dp))
             )
-            AudioInfo(audioFile = audioFile, modifier = Modifier
-                .weight(1f)
-                .clickable {
-                    onAudioInfoClick(audioFile.displayName)
-                })
+            AudioInfo(
+                audioFile = audioFile, modifier = Modifier
+                    .weight(1f)
+            )
 
             BottomMediaPlayerController(
                 isAudioPlaying = isAudioPlaying,
                 onStart = { onPlayerAction(MediaPlayerControllerAction.OnStart(audioFile)) },
-                onNext = { onPlayerAction(MediaPlayerControllerAction.OnNext)}
+                onNext = { onPlayerAction(MediaPlayerControllerAction.OnNext) }
             )
         }
         AudioSlider(

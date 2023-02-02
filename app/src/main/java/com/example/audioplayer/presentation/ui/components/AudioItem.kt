@@ -39,7 +39,7 @@ fun AudioFileItem(
             CoverImage(
                 uri = audioFile.coverUri, modifier = Modifier
                     .size(50.dp)
-                    .clip(RoundedCornerShape(5.dp))
+                    .clip(RoundedCornerShape(8.dp))
             )
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(

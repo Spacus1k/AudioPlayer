@@ -25,7 +25,6 @@ fun DetailsAudioInfo(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Text(
             text = audioFile.title,
             fontWeight = FontWeight.SemiBold,

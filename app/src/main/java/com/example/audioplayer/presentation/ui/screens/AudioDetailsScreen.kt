@@ -1,13 +1,16 @@
 package com.example.audioplayer.presentation.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.example.audioplayer.presentation.ui.components.AudioSliderWithTime
+import com.example.audioplayer.presentation.ui.components.CloseScreenButton
 import com.example.audioplayer.presentation.ui.components.DetailsAudioInfo
 import com.example.audioplayer.presentation.ui.components.controller.CoverImage
 import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerController
@@ -21,15 +24,24 @@ fun AudioDetailsScreen(
     progress: Float,
     progressInSec: Int,
     isAudioPlaying: Boolean,
-    onPlayerAction: (MediaPlayerControllerAction) -> Unit
+    onPlayerAction: (MediaPlayerControllerAction) -> Unit,
+    onBackPress: () -> Unit
 ) {
-    Scaffold(
+    BoxWithConstraints(
         modifier = Modifier.fillMaxSize()
     ) {
+        Box(
+            modifier = Modifier
+                .zIndex(2f)
+        ) {
+            CloseScreenButton(onBackPress = onBackPress)
+        }
 
         Column {
             Box(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colors.secondary.copy(alpha = 0.2f)),
                 contentAlignment = Alignment.Center
             ) {
                 CoverImage(uri = playingAudioFile.coverUri)
@@ -65,5 +77,6 @@ fun AudioDetailsPreview() {
         progress = 1f,
         onPlayerAction = {},
         progressInSec = 1,
+        onBackPress = {}
     )
 }
