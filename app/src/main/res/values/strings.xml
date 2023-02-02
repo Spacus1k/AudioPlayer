@@ -7,6 +7,7 @@
     <string name="permission_dialog_title">Please grant permission</string>
     <string name="not_permissions_text">The application will not be able to continue without the necessary permissions. Please grant permissions in settings.</string>
     <string name="empty_audio_list">Audio list is empty</string>
+    <string name="audio_files_not_found">No audio files were found</string>
 
     <string name="notification_channel">Now Playing</string>
     <string name="notification_channel_description">Shows what music is currently playing in our App</string>

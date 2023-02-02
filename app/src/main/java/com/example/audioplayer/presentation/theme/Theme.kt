@@ -1,20 +1,24 @@
 package com.example.audioplayer.presentation.theme
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 
 private val DarkColorPalette = darkColors(
-    primary = CyanBlue,
+    primary = Blue,
     primaryVariant = CyanAlabaster,
-    onPrimary = Color.White,
-    secondary = CyanAlabaster,
-    onSecondary = Color.Black,
+    secondary = DarkSlateGray,
+    secondaryVariant = Color.Black,
     error = Blue,
-    surface = CyanAlabaster
+    surface = Color.White,
+    background = Color.White,
 )
 
 private val LightColorPalette = lightColors(
@@ -30,11 +34,20 @@ private val LightColorPalette = lightColors(
 @Composable
 fun AudioPlayerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors =
-        //if (darkTheme) {
-        //DarkColorPalette
-    //} else {
+    //if (darkTheme) {
+    //DarkColorPalette
+        //} else {
         LightColorPalette
     //}
+
+
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.navigationBarColor = colors.primary.toArgb()
+        }
+    }
 
     MaterialTheme(
         colors = colors,

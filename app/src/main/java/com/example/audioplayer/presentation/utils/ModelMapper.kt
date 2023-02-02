@@ -10,15 +10,17 @@ fun AudioFile.toDomain() = AudioFileDomain(
     duration = duration,
     displayName = displayName,
     location = location,
+    coverUri = coverUri
 )
 
 fun AudioFileDomain.toPresentation() = AudioFile(
     id = id,
     title = title,
-    artist = if (artist.contains("<unknown>")) "Unknown Artist" else artist,
+    artist = artist,
     duration = duration,
     displayName = displayName,
     location = location,
+    coverUri = coverUri
 )
 
 fun List<AudioFileDomain>.toPresentation() = map { audio -> audio.toPresentation() }

@@ -1,29 +1,34 @@
 package com.example.audioplayer.presentation.ui.screens
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import com.example.audioplayer.presentation.ui.AudioViewModel
-import com.example.audioplayer.presentation.utils.toPresentation
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.example.audioplayer.presentation.ui.components.SearchBarAction
+import com.example.audioplayer.presentation.ui.components.controller.MediaPlayerControllerAction
+import com.example.audioplayer.presentation.ui.model.AudioFile
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
-    viewModel: AudioViewModel,
+    filteredAudioList: SnapshotStateList<AudioFile>,
+    onAudioClick: (AudioFile) -> Unit,
+    currentAudioFile: AudioFile?,
+    isAudioPlaying: Boolean,
+    progress: Float,
+    searchText: String,
+    allAudioListIsNotEmpty: Boolean,
+    onAudioInfoClick: (String) -> Unit,
+    onSearchBarAction: (SearchBarAction) -> Unit,
+    onPlayerAction: (MediaPlayerControllerAction) -> Unit,
 ) {
     AudioListScreen(
-        audioList = viewModel.audioList,
-        onAudioClick = { viewModel.playAudio(it) },
-        modifier = modifier,
-        currentAudioFile = viewModel.currentPlayingAudio.value?.toPresentation(),
-        onProgressChange = { viewModel.seekTo(it) },
-        isAudioPlaying = viewModel.isAudioPlaying,
-        onNext = { viewModel.skipToNext() },
-        onPrevious = { viewModel.rewind() },
-        onRestart = { viewModel.skipToPrevious()},
-        onStart = { viewModel.playAudio(it) },
-        progress = viewModel.currentAudioProgress.value,
-        onSearchTextChanged = { viewModel.searchQuery.value = it },
-        searchText = viewModel.searchQuery.value,
-        onClearClick = { viewModel.searchQuery.value = "" }
+        filteredAudioList = filteredAudioList,
+        onAudioClick = onAudioClick,
+        currentAudioFile =currentAudioFile,
+        isAudioPlaying = isAudioPlaying,
+        progress = progress,
+        searchText = searchText,
+        allAudioListIsNotEmpty = allAudioListIsNotEmpty,
+        onAudioInfoClick = onAudioInfoClick,
+        onSearchBarAction = onSearchBarAction,
+        onPlayerAction = onPlayerAction
     )
 }
