@@ -1,8 +1,12 @@
 package com.example.audioplayer.presentation.ui.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +18,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.example.audioplayer.presentation.ui.model.AudioFile
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DetailsAudioInfo(
     audioFile: AudioFile,
@@ -25,12 +30,14 @@ fun DetailsAudioInfo(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val scroll = rememberScrollState(0)
         Text(
             text = audioFile.title,
             fontWeight = FontWeight.SemiBold,
             fontSize = titleTextSize,
             style = MaterialTheme.typography.h6,
             maxLines = 1,
+            modifier = Modifier.basicMarquee(),
             overflow = TextOverflow.Ellipsis
         )
 
