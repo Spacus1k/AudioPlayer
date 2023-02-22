@@ -51,32 +51,38 @@ fun TopBarWithSearch(
         contentColor = MaterialTheme.colors.secondaryVariant,
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp)
+            .height(90.dp)
     ) {
-        AnimatedVisibility(
-            visible = !isSearchExpanded,
-            enter = slideIn { IntOffset(-700,0) },
-            exit = fadeOut()
-        ) {
+        Column(modifier= Modifier.fillMaxSize() ) {
+            Spacer(modifier = Modifier
+                .height(20.dp)
+                .fillMaxWidth())
 
-            CollapsedSearchBar(onIconClicked = { isSearchExpanded = true }, modifier = modifier)
-        }
-        AnimatedVisibility(
-            visible = isSearchExpanded,
-            enter = slideIn(initialOffset = { IntOffset(500, 0) }),
-            exit = slideOut( animationSpec = spring(
-                stiffness = Spring.StiffnessMedium,
-                visibilityThreshold = IntOffset.VisibilityThreshold
-            ),
-                targetOffset = { IntOffset(900, 0) })
-        ) {
-            ExpandedSearchBar(
-                searchText = searchText,
-                onBackPressed = { isSearchExpanded = false },
-                onSearchBarAction = onSearchBarAction,
-                focusManager = focusManager,
-                modifier = modifier
-            )
+            AnimatedVisibility(
+                visible = !isSearchExpanded,
+                enter = slideIn { IntOffset(-700, 0) },
+                exit = fadeOut()
+            ) {
+
+                CollapsedSearchBar(onIconClicked = { isSearchExpanded = true }, modifier = modifier)
+            }
+            AnimatedVisibility(
+                visible = isSearchExpanded,
+                enter = slideIn(initialOffset = { IntOffset(500, 0) }),
+                exit = slideOut(animationSpec = spring(
+                    stiffness = Spring.StiffnessMedium,
+                    visibilityThreshold = IntOffset.VisibilityThreshold
+                ),
+                    targetOffset = { IntOffset(900, 0) })
+            ) {
+                ExpandedSearchBar(
+                    searchText = searchText,
+                    onBackPressed = { isSearchExpanded = false },
+                    onSearchBarAction = onSearchBarAction,
+                    focusManager = focusManager,
+                    modifier = modifier
+                )
+            }
         }
     }
 }
@@ -172,7 +178,7 @@ fun ExpandedSearchBar(
 @Composable
 fun CollapsedSearchBar(onIconClicked: () -> Unit, modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth().padding(top = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
 
@@ -192,6 +198,11 @@ fun CollapsedSearchBar(onIconClicked: () -> Unit, modifier: Modifier = Modifier)
     }
 }
 
+sealed class SearchBarAction {
+    class OnSearchTextChanged(val query: String) : SearchBarAction()
+    object OnClearClick : SearchBarAction()
+}
+
 @Composable
 @Preview
 fun PreviewSearchField() {
@@ -207,9 +218,4 @@ fun PreviewSearchField() {
 @Preview
 fun PreviewCollapsedSearchBar() {
     CollapsedSearchBar(onIconClicked = {})
-}
-
-sealed class SearchBarAction {
-    class OnSearchTextChanged(val query: String) : SearchBarAction()
-    object OnClearClick : SearchBarAction()
 }

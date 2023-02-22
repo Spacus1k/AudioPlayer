@@ -92,3 +92,4 @@ lint/tmp/
 /.idea/compiler.xml
 /app/src/main/res/xml/data_extraction_rules.xml
 /.idea/inspectionProfiles/Project_Default.xml
+/.idea/deploymentTargetDropDown.xml

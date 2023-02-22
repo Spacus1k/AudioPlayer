@@ -10,6 +10,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
     primary = Blue,
@@ -40,6 +41,16 @@ fun AudioPlayerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compo
         LightColorPalette
     //}
 
+    val systemUiController = rememberSystemUiController()
+    if(darkTheme){
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent
+        )
+    }else{
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent
+        )
+    }
 
     val view = LocalView.current
     if (!view.isInEditMode) {

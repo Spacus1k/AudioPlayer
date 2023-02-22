@@ -1,14 +1,15 @@
 package com.example.audioplayer.presentation
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 import com.example.audioplayer.presentation.theme.AudioPlayerTheme
 import com.example.audioplayer.presentation.ui.AudioViewModel
 import com.example.audioplayer.presentation.ui.screens.WithoutPermissionScreen
@@ -42,6 +43,7 @@ class MainActivity : ComponentActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         multiplePermissionContract.launch(PermissionManager.PERMISSIONS)
     }

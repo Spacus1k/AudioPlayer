@@ -30,13 +30,13 @@ fun BottomBarPlayer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .padding(start = 16.dp)
                 .clickable {
                     onAudioInfoClick(audioFile.displayName)
                 },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            Spacer(modifier = Modifier.width(16.dp))
             CoverImage(
                 uri = audioFile.coverUri, modifier = Modifier
                     .size(50.dp)

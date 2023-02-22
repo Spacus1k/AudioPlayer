@@ -32,6 +32,7 @@ fun AudioDetailsScreen(
     ) {
         Box(
             modifier = Modifier
+                .padding(top = 15.dp)
                 .zIndex(2f)
         ) {
             CloseScreenButton(onBackPress = onBackPress)
