@@ -3,9 +3,7 @@ package com.example.audioplayer.presentation.ui.components
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -14,9 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.audioplayer.presentation.ui.model.AudioFile
+import com.example.audioplayer.presentation.utils.getFakeAudioFile
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -26,19 +27,17 @@ fun DetailsAudioInfo(
     artistTextSize: TextUnit = 15.sp
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val scroll = rememberScrollState(0)
         Text(
             text = audioFile.title,
             fontWeight = FontWeight.SemiBold,
             fontSize = titleTextSize,
             style = MaterialTheme.typography.h6,
             maxLines = 1,
-            modifier = Modifier.basicMarquee(),
-            overflow = TextOverflow.Ellipsis
+            modifier = Modifier.basicMarquee()
         )
 
         Text(
@@ -51,4 +50,9 @@ fun DetailsAudioInfo(
             maxLines = 1
         )
     }
+}
+@Composable
+@Preview
+fun PreviewDetailsAudioInfo(){
+    DetailsAudioInfo(getFakeAudioFile())
 }
